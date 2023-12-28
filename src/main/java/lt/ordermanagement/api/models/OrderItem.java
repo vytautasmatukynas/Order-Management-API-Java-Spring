@@ -2,6 +2,7 @@ package lt.ordermanagement.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,19 +22,17 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(max = 50, message = "Item name must be max 50 characters")
+    @NotBlank()
     @Column(name = "item_name",
             length = 50,
             nullable = false)
     private String itemName;
 
-    @Size(max = 50, message = "First name must be max 50 characters")
     @Column(name = "item_code",
             length = 50,
             nullable = false)
     private String itemCode;
 
-    @Size(max = 50, message = "First name must be max 50 characters")
     @Column(name = "item_revision",
             length = 50,
             nullable = false)

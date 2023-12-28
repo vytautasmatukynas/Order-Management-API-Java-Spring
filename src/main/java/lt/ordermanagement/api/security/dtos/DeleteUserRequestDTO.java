@@ -1,7 +1,6 @@
 package lt.ordermanagement.api.security.dtos;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,8 +13,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeleteUserRequestDTO {
 
-    @Size(min = 5, max = 20, message = "Username must be between 5 and 20 characters")
-    @NotBlank(message = "Username cannot be blank")
+    @NotBlank()
     private String username;
+
+    @NotBlank()
+    private String password;
+
+    @NotBlank()
+    private String usernameToDelete;
 
 }

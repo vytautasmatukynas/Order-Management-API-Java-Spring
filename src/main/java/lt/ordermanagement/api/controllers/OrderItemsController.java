@@ -37,6 +37,8 @@ public class OrderItemsController {
     public static final String UPDATE_ITEM_PATH = "/order/update/item/{itemId}";
     public static final String DELETE_ITEM_PATH = "/order/delete/item/{itemId}";
 
+    public static final String CORS_URL = "http://localhost:3000";
+
     private final OrderItemsService orderItemsService;
 
     /**
@@ -48,7 +50,7 @@ public class OrderItemsController {
      *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
      *         NoSuchElementException, Exception
      */
-    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
+    @CrossOrigin(origins = CORS_URL)
     @GetMapping(ITEMS_PATH)
     public ResponseEntity<List<OrderItem>> getOrderItems(@PathVariable Long orderId) {
         try {
@@ -78,7 +80,7 @@ public class OrderItemsController {
      *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
      *         NoSuchElementException, Exception
      */
-    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
+    @CrossOrigin(origins = CORS_URL)
     @GetMapping(ITEM_PATH)
     public ResponseEntity<OrderItem> getOrderItemById(@PathVariable Long itemId) {
         try {
@@ -108,7 +110,7 @@ public class OrderItemsController {
      *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
      *         IOException
      */
-    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
+    @CrossOrigin(origins = CORS_URL)
     @GetMapping(SEARCH_ORDER_ITEM_PATH)
     public ResponseEntity<List<OrderItem>> findOrderItemsByName(@PathVariable Long orderId,
                                                                 @PathVariable String itemName) {
@@ -140,7 +142,7 @@ public class OrderItemsController {
      *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
      *         NoSuchElementException, Exception
      */
-    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    @CrossOrigin(origins = CORS_URL)
     @PostMapping(ADD_ITEM_PATH)
     public ResponseEntity<OrderItem> addItemToOrder(@PathVariable Long orderId,
                                                     @RequestBody OrderItem orderItem) {
@@ -172,7 +174,7 @@ public class OrderItemsController {
      *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
      *         NoSuchElementException, Exception
      */
-    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    @CrossOrigin(origins = CORS_URL)
     @PutMapping(UPDATE_ITEM_PATH)
     public ResponseEntity<OrderItem> updateOrderItem(@PathVariable Long itemId,
                                                      @RequestBody OrderItem orderItem) {
@@ -203,7 +205,7 @@ public class OrderItemsController {
      *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
      *         NoSuchElementException, Exception
      */
-    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    @CrossOrigin(origins = CORS_URL)
     @DeleteMapping(DELETE_ITEM_PATH)
     public ResponseEntity<ResponseDeleteDTO> deleteOrderItem(@PathVariable Long itemId) {
         try {

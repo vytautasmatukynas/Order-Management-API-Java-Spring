@@ -32,28 +32,26 @@ public class Order {
             nullable = false)
     private String orderNumber;
 
-    @Size(min = 1, max = 50, message = "Order name must be between 1 and 50 characters")
-    @NotBlank(message = "Order name cannot be blank")
+    @NotBlank()
     @Column(name = "order_name",
             length = 50,
             nullable = false)
     private String orderName;
 
-    @Size(min = 1, max = 50, message = "Client name must be between 1 and 50 characters")
-    @NotBlank(message = "Client name cannot be blank")
+    @NotBlank()
     @Column(name = "client_name",
             length = 50,
             nullable = false)
     private String clientName;
 
-    @Size(max = 20, message = "Client phone number must be max 20 characters")
+    @NotBlank()
     @Column(name = "client_phone_number",
             length = 20,
             nullable = false)
     private String clientPhoneNumber;
 
-    @Size(max = 50, message = "Email must be max 50 characters")
-    @Email(message = "Email format is incorrect")
+    @NotBlank()
+    @Email()
     @Column(name = "client_email",
             length = 50,
             nullable = false

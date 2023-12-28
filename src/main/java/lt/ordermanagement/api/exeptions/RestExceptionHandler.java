@@ -65,8 +65,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @param e The exception indicating that the access is denied.
      * @return A {@link ResponseEntity} with a {@link ApiErrorDTO} representing the error response.
      */
-    @ExceptionHandler({AccessDeniedException.class})
-    public ResponseEntity<ApiErrorDTO> handleAccessDeniedException(Exception e) {
+    @ExceptionHandler({AccessDeniedException.class, IllegalArgumentException.class})
+    public ResponseEntity<ApiErrorDTO> handleAccessException(Exception e) {
         ApiErrorDTO apiError = new ApiErrorDTO(
                 HttpStatus.FORBIDDEN,
                 e.getMessage());
@@ -84,22 +84,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ApiErrorDTO> handleAuthenticationException(Exception e) {
         ApiErrorDTO apiError = new ApiErrorDTO(
                 HttpStatus.UNAUTHORIZED,
-                e.getMessage());
-        return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.status());
-    }
-
-    /**
-     * Handles exceptions of type {@link IllegalAccessException} by generating a standardized API error response.
-     *
-     * @param e The {@link IllegalAccessException} indicating the authentication failure.
-     * @return A {@link ResponseEntity} with a {@link ApiErrorDTO} representing the error response.
-     * @see ExceptionHandler
-     * @see ApiErrorDTO
-     */
-    @ExceptionHandler({IllegalArgumentException.class})
-    public ResponseEntity<ApiErrorDTO> handleIllegalArgumentException(Exception e) {
-        ApiErrorDTO apiError = new ApiErrorDTO(
-                HttpStatus.CONFLICT,
                 e.getMessage());
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.status());
     }

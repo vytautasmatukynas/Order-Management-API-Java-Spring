@@ -52,11 +52,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/user/authenticate",
-                                        "/api/v1/user/change/password").permitAll()
-
-                        .requestMatchers("/api/v1/user/register",
-                                        "/api/v1/user/delete").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/orders",
+                                        "/api/v1/order/{orderId}",
+                                        "/api/v1/order/search/{orderParam}",
+                                        "/api/v1/order/{orderId}/items",
+                                        "/api/v1/order/item/{itemId}",
+                                        "/order/{orderId}/items/{itemName}",
+                                        "/api/v1/user/change/password",
+                                        "/api/v1/user/authenticate").hasRole("USER")
 
                         .requestMatchers("/api/v1/add/order",
                                         "/api/v1/update/order/{orderId}",
@@ -65,12 +68,8 @@ public class SecurityConfig {
                                         "/api/v1/order/update/item/{itemId}",
                                         "/api/v1/order/delete/item/{itemId}").hasRole("MANAGER")
 
-                        .requestMatchers("/api/v1/orders",
-                                        "/api/v1/order/{orderId}",
-                                        "/api/v1/order/search/{orderParam}",
-                                        "/api/v1/order/{orderId}/items",
-                                        "/api/v1/order/item/{itemId}",
-                                        "/order/{orderId}/items/{itemName}").hasRole("USER")
+                        .requestMatchers("/api/v1/user/register",
+                                        "/api/v1/user/delete").hasRole("ADMIN")
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(session -> session

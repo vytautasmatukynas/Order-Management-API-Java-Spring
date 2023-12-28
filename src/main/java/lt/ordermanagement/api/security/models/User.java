@@ -2,7 +2,6 @@ package lt.ordermanagement.api.security.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,34 +27,31 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Size(max = 50, message = "First name must be max 50 characters")
-    @NotBlank(message = "First name cannot be blank")
+    @NotBlank()
     @Column(name = "first_name",
             length = 50,
             nullable = false)
     private String firstName;
 
-    @Size(max = 50, message = "Last name must be max 50 characters")
-    @NotBlank(message = "Last name cannot be blank")
+    @NotBlank()
     @Column(name = "last_name",
             length = 50,
             nullable = false)
     private String lastName;
 
-    @Size(min = 5, max = 20, message = "Username must be between 5 and 20 characters")
-    @NotBlank(message = "Username cannot be blank")
+    @NotBlank()
     @Column(name = "username",
             length = 20,
             nullable = false,
             unique = true)
     private String username;
 
-    @Size(min = 8, max = 20, message = "Password must be between 8 and 20 characters")
-    @NotBlank(message = "Password cannot be blank")
+    @NotBlank()
     @Column(name = "password",
             nullable = false)
     private String password;
 
+    @NotBlank()
     @Column(name = "role",
             nullable = false)
     @Enumerated(EnumType.STRING)

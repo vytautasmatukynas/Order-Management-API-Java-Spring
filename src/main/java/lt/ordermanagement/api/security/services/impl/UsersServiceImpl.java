@@ -1,7 +1,10 @@
 package lt.ordermanagement.api.security.services.impl;
 
 import lombok.RequiredArgsConstructor;
-import lt.ordermanagement.api.security.dtos.*;
+import lt.ordermanagement.api.security.dtos.AuthenticationRequestDTO;
+import lt.ordermanagement.api.security.dtos.ChangePasswordRequestDTO;
+import lt.ordermanagement.api.security.dtos.DeleteUserRequestDTO;
+import lt.ordermanagement.api.security.enums.Role;
 import lt.ordermanagement.api.security.jwt.JwtService;
 import lt.ordermanagement.api.security.models.User;
 import lt.ordermanagement.api.security.repositories.UserRepository;
@@ -24,6 +27,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UsersServiceImpl implements UsersService {
 
+    private static final int MAX_NAME_LENGTH = 50;
+    private static final int MAX_USERNAME_LENGTH = 20;
+    private static final int MIN_PASSWORD_LENGTH = 8;
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -34,27 +41,56 @@ public class UsersServiceImpl implements UsersService {
      *
      * @param user The registration user.
      * @return The registered {@link User}.
-     * @throws AccessDeniedException If the authenticated user does not have the "ROLE_ADMIN" authority.
      */
     @Transactional
     @Override
     public User registerUser(User user) {
-        if (hasAdminRole()) {
-            String newUsername = user.getUsername().toLowerCase();
+        String newFirstName = user.getFirstName();
+        String newLastname = user.getLastName();
+        String newUsername = user.getUsername().toLowerCase();
+        String newPassword = user.getPassword();
 
-            if (userRepository.findByUsername(newUsername).isPresent()) {
-                throw new IllegalArgumentException("Username already exists.");
-            }
+        validateNewUserInfo(newUsername, newFirstName, newLastname, newPassword);
 
-            user.setUsername(newUsername);
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRole(user.getRole());
+        user.setFirstName(newFirstName);
+        user.setLastName(newLastname);
+        user.setUsername(newUsername);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setRole(Role.ROLE_USER);
 
-            userRepository.save(user);
+        userRepository.save(user);
 
-            return user;
-        } else {
-            throw new AccessDeniedException("Access denied. Only users with ADMIN authority can register new users.");
+        return user;
+    }
+
+    /**
+     * Checks the validity of new user information before creating a new user.
+     *
+     * @param newUsername  The new username to be checked.
+     * @param newFirstName The new first name to be checked.
+     * @param newLastName  The new last name to be checked.
+     * @param newPassword  The new password to be checked.
+     * @throws IllegalArgumentException If any validation rule is not met.
+     */
+    private void validateNewUserInfo(String newUsername,
+                                     String newFirstName,
+                                     String newLastName,
+                                     String newPassword) {
+        if (userRepository.findByUsername(newUsername).isPresent()) {
+            throw new IllegalArgumentException("Username already exists.");
+
+        } else if ((newFirstName.isEmpty() || newFirstName.length() > MAX_NAME_LENGTH) &&
+                (newLastName.isEmpty() || newLastName.length() > MAX_NAME_LENGTH)) {
+            throw new IllegalArgumentException(
+                    "First name or last name must be between 1 and 50 characters long.");
+
+        } else if (newUsername.isEmpty() || newUsername.length() > MAX_USERNAME_LENGTH) {
+            throw new IllegalArgumentException(
+                    "Username must be between 1 and 20 characters long.");
+
+        } else if (newPassword.length() < MIN_PASSWORD_LENGTH) {
+            throw new IllegalArgumentException(
+                    "Password must be at least 8 characters long.");
         }
     }
 
@@ -63,8 +99,8 @@ public class UsersServiceImpl implements UsersService {
      *
      * @param request The authentication request containing the username and password.
      * @return An authentication response containing a JWT token.
-     * @throws BadCredentialsException      If authentication fails.
-     * @throws UsernameNotFoundException    If the user with the provided username is not found.
+     * @throws BadCredentialsException   If authentication fails.
+     * @throws UsernameNotFoundException If the user with the provided username is not found.
      */
     @Transactional
     @Override
@@ -78,7 +114,8 @@ public class UsersServiceImpl implements UsersService {
 
         User user = userRepository.findByUsername(request.getUsername().toLowerCase())
                 .orElseThrow(
-                        () -> new UsernameNotFoundException("User not found with username: " + request.getUsername()));
+                        () -> new UsernameNotFoundException(
+                                "User not found with username: " + request.getUsername()));
 
         return jwtService.generateToken(user);
     }
@@ -86,24 +123,30 @@ public class UsersServiceImpl implements UsersService {
     /**
      * Changes the password for the authenticated user based on the provided {@link ChangePasswordRequestDTO}.
      *
-     * @param request The {@link ChangePasswordRequestDTO} containing the new password and the old password for verification.
-     *                The username in the request must match the authenticated user's username.
+     * @param request The {@link ChangePasswordRequestDTO} containing the new password and the old password
+     *                for verification. The username in the request must match the authenticated user's username.
+     * @throws IllegalArgumentException  If input isn't between allowed character length.
      * @throws UsernameNotFoundException If the authenticated user is not found.
-     * @throws BadCredentialsException    If the old password is invalid or the new password is too short.
+     * @throws BadCredentialsException   If the old password is invalid or the new password is too short.
      */
     @Transactional
     @Override
     public void changePassword(ChangePasswordRequestDTO request) {
-        User user = userRepository.findByUsername(
-                        SecurityContextHolder.getContext().getAuthentication().getName().toLowerCase())
+        User user = userRepository.findByUsername(getStoredUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found."));
 
-        if (request.getUsername().equalsIgnoreCase(user.getUsername()) &&
+        if (user.getUsername().equalsIgnoreCase(request.getUsername()) &&
                 passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+
+            if (request.getNewPassword().length() < MIN_PASSWORD_LENGTH) {
+                throw new IllegalArgumentException(
+                        "New password must be at least 8 characters long.");
+            }
 
             user.setPassword(passwordEncoder.encode(request.getNewPassword()));
 
             userRepository.save(user);
+
         } else {
             throw new BadCredentialsException("Invalid credentials.");
         }
@@ -119,26 +162,50 @@ public class UsersServiceImpl implements UsersService {
     @Transactional
     @Override
     public void deleteUser(DeleteUserRequestDTO request) {
-        if (hasAdminRole()) {
-            User user = userRepository.findByUsername(request.getUsername())
+        if (getStoredUsername().equalsIgnoreCase(request.getUsername()) &&
+                passwordEncoder.matches(request.getPassword(), getStoredEncodedPassword())) {
+
+            User user = userRepository.findByUsername(request.getUsernameToDelete())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found."));
 
             userRepository.delete(user);
+
         } else {
-            throw new AccessDeniedException("Access denied. Only users with ADMIN authority can register new users.");
+            throw new AccessDeniedException(
+                    "Access denied. Only users with ADMIN authority can register new users.");
         }
     }
 
     /**
-     * Checks if the authenticated user has the 'ROLE_ADMIN' role.
+     * Retrieves the username of the currently authenticated user.
      *
-     * @return {@code true} if the user has 'ROLE_ADMIN', {@code false} otherwise.
+     * @return The username of the authenticated user in lowercase.
      */
-    private boolean hasAdminRole() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    @Override
+    public String getStoredUsername() {
+        return getAuthenticationContext().getName().toLowerCase();
+    }
 
-        return authentication != null && authentication.getAuthorities().stream()
-                .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
+    /**
+     * Retrieves the encoded password of the currently authenticated user from the user repository.
+     *
+     * @return The encoded password of the authenticated user.
+     * @throws UsernameNotFoundException If the user is not found in the repository.
+     */
+    @Override
+    public String getStoredEncodedPassword() {
+        return userRepository.findByUsername(getStoredUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found."))
+                .getPassword();
+    }
+
+    /**
+     * Retrieves the current authentication context.
+     *
+     * @return The current Authentication object representing the authentication context.
+     */
+    private Authentication getAuthenticationContext() {
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 
 }
