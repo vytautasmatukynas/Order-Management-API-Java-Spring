@@ -44,24 +44,24 @@ and `UPDATE` requests. `ROLE_MANAGER` has same privileges for `GET` `POST` `DELE
 
 |           Endpoint           |         Role         |
 |:----------------------------:|:--------------------:|
-|    /api/v1/user/register     |        ADMIN         |
-|  /api/v1/user/authenticate   | ADMIN, MANAGER, USER |
+|  /api/v1/user/authenticate   |      Permit All      |
 | /api/v1/user/change/password | ADMIN, MANAGER, USER |
+|    /api/v1/user/register     |        ADMIN         |
 |     /api/v1/user/delete      |        ADMIN         |
 
 <br>
 
 ### Endpoints for `users`:
 
-`REGISTER` user endpoint: `/api/v1/user/register`.
-
-<br>
-
 `AUTHENTICATE` user endpoint: `/api/v1/user/authenticate`.
 
 <br>
 
 `CHANGE PASSWORD` endpoint: `/api/v1/user/change/password`.
+
+<br>
+
+`REGISTER` user endpoint: `/api/v1/user/register`.
 
 <br>
 
