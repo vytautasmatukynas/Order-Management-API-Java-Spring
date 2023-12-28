@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsersServiceImpl implements UsersService {
 
     private static final int MAX_NAME_LENGTH = 50;
+    private static final int MIN_USERNAME_LENGTH = 5;
     private static final int MAX_USERNAME_LENGTH = 20;
     private static final int MIN_PASSWORD_LENGTH = 8;
 
@@ -84,9 +85,9 @@ public class UsersServiceImpl implements UsersService {
             throw new IllegalArgumentException(
                     "First name or last name must be between 1 and 50 characters long.");
 
-        } else if (newUsername.isEmpty() || newUsername.length() > MAX_USERNAME_LENGTH) {
+        } else if (newUsername.length() < MIN_USERNAME_LENGTH || newUsername.length() > MAX_USERNAME_LENGTH) {
             throw new IllegalArgumentException(
-                    "Username must be between 1 and 20 characters long.");
+                    "Username must be between 5 and 20 characters long.");
 
         } else if (newPassword.length() < MIN_PASSWORD_LENGTH) {
             throw new IllegalArgumentException(
@@ -171,8 +172,7 @@ public class UsersServiceImpl implements UsersService {
             userRepository.delete(user);
 
         } else {
-            throw new AccessDeniedException(
-                    "Access denied. Only users with ADMIN authority can register new users.");
+            throw new BadCredentialsException("Invalid credentials.");
         }
     }
 

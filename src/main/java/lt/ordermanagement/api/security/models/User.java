@@ -51,7 +51,6 @@ public class User implements UserDetails {
             nullable = false)
     private String password;
 
-    @NotBlank()
     @Column(name = "role",
             nullable = false)
     @Enumerated(EnumType.STRING)
