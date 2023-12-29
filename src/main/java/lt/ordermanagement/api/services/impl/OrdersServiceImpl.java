@@ -6,6 +6,7 @@ import lt.ordermanagement.api.models.OrderItem;
 import lt.ordermanagement.api.repositories.OrdersRepository;
 import lt.ordermanagement.api.services.Interfaces.OrdersService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -68,6 +69,7 @@ public class OrdersServiceImpl implements OrdersService {
      *
      * @param order The order to save. It should contain order items for accurate price calculation.
      */
+    @Transactional
     @Override
     public void addOrder(Order order) {
         order.setOrderNumber(generateOrderNumber());
@@ -81,6 +83,7 @@ public class OrdersServiceImpl implements OrdersService {
      *
      * @param order The order to update.
      */
+    @Transactional
     @Override
     public Order updateOrder(Long orderId, Order order) {
         Order oldOrder = getOrderById(orderId);
@@ -105,6 +108,7 @@ public class OrdersServiceImpl implements OrdersService {
      *
      * @param orderId The ID of the order to delete.
      */
+    @Transactional
     @Override
     public void deleteOrder(Long orderId) {
         Order order = ordersRepository.findById(orderId).orElseThrow();

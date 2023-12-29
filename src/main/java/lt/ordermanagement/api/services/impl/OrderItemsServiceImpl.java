@@ -8,6 +8,7 @@ import lt.ordermanagement.api.repositories.OrderItemsRepository;
 import lt.ordermanagement.api.repositories.OrdersRepository;
 import lt.ordermanagement.api.services.Interfaces.OrdersService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -81,6 +82,7 @@ public class OrderItemsServiceImpl implements OrderItemsService {
      *
      * @param orderId The ID of the order to which the item should be added.
      */
+    @Transactional
     @Override
     public OrderItem addItemToOrder(Long orderId, OrderItem orderItem) {
         Order order = ordersRepository.findById(orderId).orElseThrow();
@@ -107,6 +109,7 @@ public class OrderItemsServiceImpl implements OrderItemsService {
      *
      * @param orderItem The order item to update.
      */
+    @Transactional
     @Override
     public OrderItem updateOrderItem(Long itemId, OrderItem orderItem) {
         OrderItem oldOrderItem = getOrderItem(itemId);
@@ -134,6 +137,7 @@ public class OrderItemsServiceImpl implements OrderItemsService {
      *
      * @param orderItemId The ID of the order item to delete.
      */
+    @Transactional
     @Override
     public void deleteOrderItem(Long orderItemId) {
         OrderItem orderItem = orderItemsRepository.findById(orderItemId).orElseThrow();
