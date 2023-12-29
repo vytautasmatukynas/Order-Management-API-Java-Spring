@@ -47,16 +47,14 @@ public class Order {
             nullable = false)
     private String clientName;
 
-    @NotBlank()
-    @Size(min = 1, max = 20)
+    @Size(max = 20)
     @Column(name = "client_phone_number",
             length = 20,
             nullable = false)
     private String clientPhoneNumber;
 
-    @NotBlank()
     @Email()
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "client_email",
             length = 50,
             nullable = false
