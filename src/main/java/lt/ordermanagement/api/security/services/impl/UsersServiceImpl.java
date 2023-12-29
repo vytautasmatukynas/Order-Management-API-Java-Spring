@@ -132,8 +132,7 @@ public class UsersServiceImpl implements UsersService {
      *
      * @return The username of the authenticated user in lowercase.
      */
-    @Override
-    public String getStoredUsername() {
+    private String getStoredUsername() {
         return getAuthenticationContext().getName().toLowerCase();
     }
 
@@ -143,8 +142,7 @@ public class UsersServiceImpl implements UsersService {
      * @return The encoded password of the authenticated user.
      * @throws UsernameNotFoundException If the user is not found in the repository.
      */
-    @Override
-    public String getStoredEncodedPassword() {
+    private String getStoredEncodedPassword() {
         return userRepository.findByUsername(getStoredUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found."))
                 .getPassword();

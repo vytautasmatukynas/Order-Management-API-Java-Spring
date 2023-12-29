@@ -18,8 +18,4 @@ public interface UsersService {
 
     void deleteUser(DeleteUserRequestDTO request);
 
-    String getStoredUsername();
-
-    String getStoredEncodedPassword();
-
 }

@@ -1,10 +1,6 @@
 # Order Management API
 
-This is simple `Java` `Spring` backend API for `Order Managment Application`.
-
-<br>
-
-Frontend with `JavaScript` `React.js`: [LINK TO FRONTEND](https://github.com/vytautasmatukynas/Order-Management-App-JavaScript-React/tree/master)
+This is `Java` `Spring Boot` backend API for `Order Managment Application`.
 
 <br>
 
@@ -23,11 +19,14 @@ API configurations:
 • `CORS configuration` (@CrossOrigin annotation) that enables access for `GET` `POST` `DELETE` and `UPDATE` requests. 
 Except for `delete user` and `register new user` requests. 
 
-• `Spring Security` + `JWT` for security and users handling. `Spring Security` uses hierarchical architecture for 
-managing `ROLES`. Security is based on `ROLES`. `ROLE_ADMIN` can do every action there is for all `GET` `POST` `DELETE` 
-and `UPDATE` requests. `ROLE_MANAGER` has same privileges for `GET` `POST` `DELETE` and `UPDATE` requests, just can't 
-`delete` old user and `register` new user. `ROLE_USER` has privileges for `GET` requests, basically `Read-Only` for
-`orders` and `order_items`, except it has 2 `POST` requests for `change password` and `register`.
+• `Spring Security` + `JWT` for security and users handling.
+
+• `Spring Security` uses hierarchical architecture for managing `ROLES`. There are 3 `ROLES`:
+1. `ROLE_ADMIN` can do every action there is for all `GET` `POST` `DELETE` and `UPDATE` requests. 
+2. `ROLE_MANAGER` has same privileges for `GET` `POST` `DELETE` and `UPDATE` requests, just can't `delete` old user and 
+`register` new user. 
+3. `ROLE_USER` has privileges for `GET` requests, basically `Read-Only` for `orders` and `order_items`, except it has 2 
+`POST` requests for `change password` and `register`.
 
 <br>
 
@@ -41,7 +40,7 @@ and `UPDATE` requests. `ROLE_MANAGER` has same privileges for `GET` `POST` `DELE
 
 ## More details about API functionality:
 
-### Security configuration handling endpoints for different `role` for `users`:
+### Security configuration handling endpoints for different `ROLE` for `users`:
 
 |           Endpoint           |         Role         |
 |:----------------------------:|:--------------------:|
@@ -70,7 +69,7 @@ and `UPDATE` requests. `ROLE_MANAGER` has same privileges for `GET` `POST` `DELE
 
 <br>
 
-### Security configuration handling endpoints for different `role` for `orders`:
+### Security configuration handling endpoints for different `ROLE` for `orders`:
 
 |               Endpoint                |         Role         |
 |:-------------------------------------:|:--------------------:|
@@ -117,7 +116,7 @@ and `UPDATE` requests. `ROLE_MANAGER` has same privileges for `GET` `POST` `DELE
 
 <br>
 
-### Security configuration handling endpoints for different `role` for `order_items`:
+### Security configuration handling endpoints for different `ROLE` for `order_items`:
 
 |                     Endpoint                      |         Role         |
 |:-------------------------------------------------:|:--------------------:|
