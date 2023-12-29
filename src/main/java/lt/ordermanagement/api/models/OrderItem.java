@@ -23,16 +23,19 @@ public class OrderItem {
     private Long id;
 
     @NotBlank()
+    @Size(min = 1, max = 50)
     @Column(name = "item_name",
             length = 50,
             nullable = false)
     private String itemName;
 
+    @Size(max = 50)
     @Column(name = "item_code",
             length = 50,
             nullable = false)
     private String itemCode;
 
+    @Size(max = 50)
     @Column(name = "item_revision",
             length = 50,
             nullable = false)

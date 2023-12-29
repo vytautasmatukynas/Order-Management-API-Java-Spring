@@ -1,5 +1,6 @@
 package lt.ordermanagement.api.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lt.ordermanagement.api.dtos.ResponseDeleteDTO;
 import lt.ordermanagement.api.models.OrderItem;
@@ -7,7 +8,6 @@ import lt.ordermanagement.api.services.Interfaces.OrderItemsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -145,7 +145,7 @@ public class OrderItemsController {
     @CrossOrigin(origins = CORS_URL)
     @PostMapping(ADD_ITEM_PATH)
     public ResponseEntity<OrderItem> addItemToOrder(@PathVariable Long orderId,
-                                                    @RequestBody OrderItem orderItem) {
+                                                    @Valid @RequestBody OrderItem orderItem) {
         try {
             return ResponseEntity.ok(orderItemsService.addItemToOrder(orderId, orderItem));
 
@@ -177,7 +177,7 @@ public class OrderItemsController {
     @CrossOrigin(origins = CORS_URL)
     @PutMapping(UPDATE_ITEM_PATH)
     public ResponseEntity<OrderItem> updateOrderItem(@PathVariable Long itemId,
-                                                     @RequestBody OrderItem orderItem) {
+                                                     @Valid @RequestBody OrderItem orderItem) {
         try {
             return ResponseEntity.ok(orderItemsService.updateOrderItem(itemId, orderItem));
 

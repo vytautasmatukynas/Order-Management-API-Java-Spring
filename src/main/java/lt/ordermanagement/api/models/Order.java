@@ -26,6 +26,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Size(max = 13)
     @Column(name = "order_number",
             unique = true,
             length = 13,
@@ -33,18 +34,21 @@ public class Order {
     private String orderNumber;
 
     @NotBlank()
+    @Size(min = 1, max = 50)
     @Column(name = "order_name",
             length = 50,
             nullable = false)
     private String orderName;
 
     @NotBlank()
+    @Size(min = 1, max = 50)
     @Column(name = "client_name",
             length = 50,
             nullable = false)
     private String clientName;
 
     @NotBlank()
+    @Size(min = 1, max = 20)
     @Column(name = "client_phone_number",
             length = 20,
             nullable = false)
@@ -52,6 +56,7 @@ public class Order {
 
     @NotBlank()
     @Email()
+    @Size(min = 1, max = 50)
     @Column(name = "client_email",
             length = 50,
             nullable = false
@@ -74,6 +79,7 @@ public class Order {
             nullable = false)
     private Double orderPrice = 0D;
 
+    @Size(max = 200)
     @Column(name = "comments",
             length = 200,
             nullable = false)
