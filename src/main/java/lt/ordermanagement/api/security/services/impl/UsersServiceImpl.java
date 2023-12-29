@@ -27,11 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UsersServiceImpl implements UsersService {
 
-    private static final int MAX_NAME_LENGTH = 50;
-    private static final int MIN_USERNAME_LENGTH = 5;
-    private static final int MAX_USERNAME_LENGTH = 20;
-    private static final int MIN_PASSWORD_LENGTH = 8;
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -46,53 +41,15 @@ public class UsersServiceImpl implements UsersService {
     @Transactional
     @Override
     public User registerUser(User user) {
-        String newFirstName = user.getFirstName();
-        String newLastname = user.getLastName();
-        String newUsername = user.getUsername().toLowerCase();
-        String newPassword = user.getPassword();
-
-        validateNewUserInfo(newUsername, newFirstName, newLastname, newPassword);
-
-        user.setFirstName(newFirstName);
-        user.setLastName(newLastname);
-        user.setUsername(newUsername);
-        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setFirstName(user.getFirstName());
+        user.setLastName(user.getLastName());
+        user.setUsername(user.getUsername().toLowerCase());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.ROLE_USER);
 
         userRepository.save(user);
 
         return user;
-    }
-
-    /**
-     * Checks the validity of new user information before creating a new user.
-     *
-     * @param newUsername  The new username to be checked.
-     * @param newFirstName The new first name to be checked.
-     * @param newLastName  The new last name to be checked.
-     * @param newPassword  The new password to be checked.
-     * @throws IllegalArgumentException If any validation rule is not met.
-     */
-    private void validateNewUserInfo(String newUsername,
-                                     String newFirstName,
-                                     String newLastName,
-                                     String newPassword) {
-        if (userRepository.findByUsername(newUsername).isPresent()) {
-            throw new IllegalArgumentException("Username already exists.");
-
-        } else if ((newFirstName.isEmpty() || newFirstName.length() > MAX_NAME_LENGTH) &&
-                (newLastName.isEmpty() || newLastName.length() > MAX_NAME_LENGTH)) {
-            throw new IllegalArgumentException(
-                    "First name or last name must be between 1 and 50 characters long.");
-
-        } else if (newUsername.length() < MIN_USERNAME_LENGTH || newUsername.length() > MAX_USERNAME_LENGTH) {
-            throw new IllegalArgumentException(
-                    "Username must be between 5 and 20 characters long.");
-
-        } else if (newPassword.length() < MIN_PASSWORD_LENGTH) {
-            throw new IllegalArgumentException(
-                    "Password must be at least 8 characters long.");
-        }
     }
 
     /**
@@ -126,7 +83,6 @@ public class UsersServiceImpl implements UsersService {
      *
      * @param request The {@link ChangePasswordRequestDTO} containing the new password and the old password
      *                for verification. The username in the request must match the authenticated user's username.
-     * @throws IllegalArgumentException  If input isn't between allowed character length.
      * @throws UsernameNotFoundException If the authenticated user is not found.
      * @throws BadCredentialsException   If the old password is invalid or the new password is too short.
      */
@@ -138,11 +94,6 @@ public class UsersServiceImpl implements UsersService {
 
         if (user.getUsername().equalsIgnoreCase(request.getUsername()) &&
                 passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
-
-            if (request.getNewPassword().length() < MIN_PASSWORD_LENGTH) {
-                throw new IllegalArgumentException(
-                        "New password must be at least 8 characters long.");
-            }
 
             user.setPassword(passwordEncoder.encode(request.getNewPassword()));
 

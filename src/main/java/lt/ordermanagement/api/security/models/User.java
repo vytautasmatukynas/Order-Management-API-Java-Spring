@@ -2,6 +2,7 @@ package lt.ordermanagement.api.security.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,18 +29,21 @@ public class User implements UserDetails {
     private long id;
 
     @NotBlank()
+    @Size(min = 1, max = 50)
     @Column(name = "first_name",
             length = 50,
             nullable = false)
     private String firstName;
 
     @NotBlank()
+    @Size(min = 1, max = 50)
     @Column(name = "last_name",
             length = 50,
             nullable = false)
     private String lastName;
 
     @NotBlank()
+    @Size(min = 5, max = 20)
     @Column(name = "username",
             length = 20,
             nullable = false,
@@ -47,6 +51,7 @@ public class User implements UserDetails {
     private String username;
 
     @NotBlank()
+    @Size(min = 8)
     @Column(name = "password",
             nullable = false)
     private String password;

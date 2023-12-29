@@ -17,9 +17,9 @@ import java.util.NoSuchElementException;
  *
  * <p>
  * This class handles specific exceptions and generates standardized API error responses.
- * In this implementation, it provides handling for {@link NoSuchElementException} by returning
+ * In this implementation, it provides handling for {@link Exception} by returning
  * a {@link ResponseEntity} with a {@link ApiErrorDTO} containing the HTTP status code
- * {@link HttpStatus#NOT_FOUND} and a message describing the error.
+ * {@link HttpStatus} and a message describing the error.
  * </p>
  *
  * <p>
@@ -65,7 +65,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @param e The exception indicating that the access is denied.
      * @return A {@link ResponseEntity} with a {@link ApiErrorDTO} representing the error response.
      */
-    @ExceptionHandler({AccessDeniedException.class, IllegalArgumentException.class})
+    @ExceptionHandler({AccessDeniedException.class})
     public ResponseEntity<ApiErrorDTO> handleAccessException(Exception e) {
         ApiErrorDTO apiError = new ApiErrorDTO(
                 HttpStatus.FORBIDDEN,

@@ -49,7 +49,7 @@ public class UsersController {
         } catch (BadCredentialsException | UsernameNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "Unauthorized: " + e.getMessage(), e);
-        } catch (AccessDeniedException | IllegalArgumentException e) {
+        } catch (AccessDeniedException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "Forbidden: " + e.getMessage(), e);
         } catch (Exception e) {
@@ -119,7 +119,7 @@ public class UsersController {
         } catch (BadCredentialsException | UsernameNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "Unauthorized: " + e.getMessage());
-        } catch (AccessDeniedException | IllegalArgumentException e) {
+        } catch (AccessDeniedException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "Forbidden: " + e.getMessage(), e);
         } catch (Exception e) {

@@ -20,7 +20,8 @@ API uses `MySQL` database and has 3 tables - `orders` `order_items` `users`.
 
 API configurations:
 
-• Basic `CORS configuration` that enables access for `GET` `POST` `DELETE` and `UPDATE` requests across all endpoints.
+• `CORS configuration` (@CrossOrigin annotation) that enables access for `GET` `POST` `DELETE` and `UPDATE` requests. 
+Except for `delete user` and `register new user` requests. 
 
 • `Spring Security` + `JWT` for security and users handling. `Spring Security` uses hierarchical architecture for 
 managing `ROLES`. Security is based on `ROLES`. `ROLE_ADMIN` can do every action there is for all `GET` `POST` `DELETE` 
@@ -44,7 +45,7 @@ and `UPDATE` requests. `ROLE_MANAGER` has same privileges for `GET` `POST` `DELE
 
 |           Endpoint           |         Role         |
 |:----------------------------:|:--------------------:|
-|  /api/v1/user/authenticate   |      Permit All      |
+|  /api/v1/user/authenticate   |     permitAll()      |
 | /api/v1/user/change/password | ADMIN, MANAGER, USER |
 |    /api/v1/user/register     |        ADMIN         |
 |     /api/v1/user/delete      |        ADMIN         |
