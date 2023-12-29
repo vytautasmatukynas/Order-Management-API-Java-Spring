@@ -17,8 +17,8 @@ import org.springframework.web.server.ResponseStatusException;
  * Controller class handling user related endpoints.
  */
 @RestController
-@RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1")
 public class UsersController {
 
     private final String REGISTER_PATH = "/user/register";
@@ -26,7 +26,7 @@ public class UsersController {
     private final String CHANGE_PASSWORD_PATH = "/user/change/password";
     private final String DELETE_PATH = "/user/delete";
 
-    public static final String CORS_URL = "http://localhost:3000";
+    private static final String CORS_URL = "http://localhost:3000";
 
     private final UsersService usersService;
 
@@ -69,7 +69,7 @@ public class UsersController {
      * @throws ResponseStatusException with HTTP status INTERNAL_SERVER_ERROR (500) if an unexpected error occurs during
      * the registration process.
      */
-    @CrossOrigin(origins = CORS_URL)
+    @CrossOrigin(origins = CORS_URL, methods = RequestMethod.POST)
     @PostMapping(AUTH_PATH)
     public ResponseEntity<AuthenticationResponseDTO> authenticate(
                         @Valid @RequestBody AuthenticationRequestDTO request) {
@@ -103,7 +103,7 @@ public class UsersController {
      * @throws ResponseStatusException with HTTP status INTERNAL_SERVER_ERROR (500) if an unexpected error occurs
      * during the registration process.
      */
-    @CrossOrigin(origins = CORS_URL)
+    @CrossOrigin(origins = CORS_URL, methods = RequestMethod.PUT)
     @PutMapping(CHANGE_PASSWORD_PATH)
     public ResponseEntity<ChangePasswordResponseDTO> changePassword(
                         @Valid @RequestBody ChangePasswordRequestDTO request) {

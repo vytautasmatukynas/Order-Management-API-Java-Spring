@@ -26,18 +26,17 @@ import java.util.NoSuchElementException;
  * </p>
  */
 @RestController
-@RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1")
+@CrossOrigin(origins = "http://localhost:3000")
 public class OrdersController {
 
-    public static final String ORDERS_PATH = "/orders";
-    public static final String ORDER_PATH = "/order/{orderId}";
-    public static final String SEARCH_ORDER_PATH = "/order/search/{orderParam}";
-    public static final String ADD_ORDER_PATH = "/add/order";
-    public static final String UPDATE_ORDER_PATH = "/update/order/{orderId}";
-    public static final String DELETE_ORDER_PATH = "/delete/order/{orderId}";
-
-    public static final String CORS_URL = "http://localhost:3000";
+    private static final String ORDERS_PATH = "/orders";
+    private static final String ORDER_PATH = "/order/{orderId}";
+    private static final String SEARCH_ORDER_PATH = "/order/search/{orderParam}";
+    private static final String ADD_ORDER_PATH = "/add/order";
+    private static final String UPDATE_ORDER_PATH = "/update/order/{orderId}";
+    private static final String DELETE_ORDER_PATH = "/delete/order/{orderId}";
 
     private final OrdersService orderService;
 
@@ -46,7 +45,6 @@ public class OrdersController {
      *
      * @return ResponseEntity containing a list of orders or an INTERNAL_SERVER_ERROR status if an unexpected error occurs.
      */
-    @CrossOrigin(origins = CORS_URL)
     @GetMapping(ORDERS_PATH)
     public ResponseEntity<List<Order>> getOrders() {
         try {
@@ -73,7 +71,6 @@ public class OrdersController {
      *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
      *         NoSuchElementException, Exception
      */
-    @CrossOrigin(origins = CORS_URL)
     @GetMapping(ORDER_PATH)
     public ResponseEntity<Order> getOrderById(@PathVariable Long orderId) {
         try {
@@ -105,7 +102,6 @@ public class OrdersController {
      *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
      *         NoSuchElementException, Exception
      */
-    @CrossOrigin(origins = CORS_URL)
     @GetMapping(SEARCH_ORDER_PATH)
     public ResponseEntity<List<Order>> findOrderByParam(@PathVariable String orderParam) {
         try {
@@ -133,7 +129,6 @@ public class OrdersController {
      * @return ResponseEntity containing the added order or INTERNAL_SERVER_ERROR status if an unexpected error occurs.
      *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException, Exception
      */
-    @CrossOrigin(origins = CORS_URL)
     @PostMapping(ADD_ORDER_PATH)
     public ResponseEntity<Order> addOrder(@Valid @RequestBody Order order) {
         try {
@@ -163,7 +158,6 @@ public class OrdersController {
      *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
      *         NoSuchElementException, Exception
      */
-    @CrossOrigin(origins = CORS_URL)
     @PutMapping(UPDATE_ORDER_PATH)
     public ResponseEntity<Order> updateOrder(@PathVariable Long orderId,
                                              @Valid @RequestBody Order order) {
@@ -194,7 +188,6 @@ public class OrdersController {
      *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
      *         NoSuchElementException, Exception
      */
-    @CrossOrigin(origins = CORS_URL)
     @DeleteMapping(DELETE_ORDER_PATH)
     public ResponseEntity<ResponseDeleteDTO> deleteOrder(@PathVariable Long orderId) {
         try {
