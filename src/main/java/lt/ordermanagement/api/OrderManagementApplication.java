@@ -18,7 +18,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * @author Vytautas Matukynas
  * @version 1.0
- * @since 2023-12-12
+ * @since 2023-12-31
  *
  * <p>
  * <b>Note:</b> Ensure that the application is configured properly with the required dependencies and settings

@@ -2,6 +2,9 @@
 
 This is `Java` `Spring Boot` backend API for `Order Managment Application`.
 
+`Order Managment Application` is designed to streamline and manage the process of handling orders.
+It provides features for creating, updating, and tracking orders for efficient order fulfillment.
+
 <br>
 
 API uses `MySQL` database and has 3 tables - `orders` `order_items` `users`.
@@ -149,7 +152,7 @@ Except for `delete user` and `register new user` requests.
 
 • `total_price` is automatically calculated by multiplying `item_count` and `item_price`.
 
-• After creating new `order_item` `order_price` in `orders` table will be automatically updated.
+• After creating new `order_item` - `order_price` in `orders` table will be automatically updated.
 
 <br>
 
@@ -157,10 +160,10 @@ Except for `delete user` and `register new user` requests.
 
 • `total_price` is automatically calculated by multiplying `item_count` and `item_price`.
 
-• After updating `order_item` `order_price` in `orders` table will be automatically updated.
+• After updating `order_item` - `order_price` in `orders` table will be automatically updated.
 
 <br>
 
 • `DELETE` `order_item` endpoint: `/order/delete/item/{itemId}`.
 
-• After deleting `order_item` `order_price` in `orders` table will be automatically updated.
+• After deleting `order_item` - `order_price` in `orders` table will be automatically updated.

@@ -4,7 +4,6 @@ import lt.ordermanagement.api.models.Order;
 import lt.ordermanagement.api.models.OrderItem;
 import lt.ordermanagement.api.repositories.OrderItemsRepository;
 import lt.ordermanagement.api.repositories.OrdersRepository;
-import lt.ordermanagement.api.services.Interfaces.OrdersService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
