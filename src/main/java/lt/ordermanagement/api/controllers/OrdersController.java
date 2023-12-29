@@ -28,7 +28,6 @@ import java.util.NoSuchElementException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-@CrossOrigin(origins = "http://localhost:3000")
 public class OrdersController {
 
     private static final String ORDERS_PATH = "/orders";
