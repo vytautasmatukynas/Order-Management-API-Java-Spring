@@ -38,6 +38,8 @@ public class OrdersController {
     private static final String UPDATE_ORDER_PATH = "/update/order/{orderId}";
     private static final String DELETE_ORDER_PATH = "/delete/order/{orderId}";
 
+    private static final String CORS_URL = "http://localhost:3000";
+
     private final OrdersService orderService;
 
     /**
@@ -45,6 +47,7 @@ public class OrdersController {
      *
      * @return ResponseEntity containing a list of orders or an INTERNAL_SERVER_ERROR status if an unexpected error occurs.
      */
+    @CrossOrigin(origins = CORS_URL, methods = RequestMethod.GET)
     @GetMapping(ORDERS_PATH)
     public ResponseEntity<List<Order>> getOrders() {
         try {
@@ -71,6 +74,7 @@ public class OrdersController {
      *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
      *         NoSuchElementException, Exception
      */
+    @CrossOrigin(origins = CORS_URL, methods = RequestMethod.GET)
     @GetMapping(ORDER_PATH)
     public ResponseEntity<Order> getOrderById(@PathVariable Long orderId) {
         try {
@@ -102,6 +106,7 @@ public class OrdersController {
      *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
      *         NoSuchElementException, Exception
      */
+    @CrossOrigin(origins = CORS_URL, methods = RequestMethod.GET)
     @GetMapping(SEARCH_ORDER_PATH)
     public ResponseEntity<List<Order>> findOrderByParam(@PathVariable String orderParam) {
         try {
@@ -129,6 +134,7 @@ public class OrdersController {
      * @return ResponseEntity containing the added order or INTERNAL_SERVER_ERROR status if an unexpected error occurs.
      *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException, Exception
      */
+    @CrossOrigin(origins = CORS_URL, methods = RequestMethod.POST)
     @PostMapping(ADD_ORDER_PATH)
     public ResponseEntity<Order> addOrder(@Valid @RequestBody Order order) {
         try {
@@ -158,6 +164,7 @@ public class OrdersController {
      *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
      *         NoSuchElementException, Exception
      */
+    @CrossOrigin(origins = CORS_URL, methods = RequestMethod.PUT)
     @PutMapping(UPDATE_ORDER_PATH)
     public ResponseEntity<Order> updateOrder(@PathVariable Long orderId,
                                              @Valid @RequestBody Order order) {
@@ -188,6 +195,7 @@ public class OrdersController {
      *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
      *         NoSuchElementException, Exception
      */
+    @CrossOrigin(origins = CORS_URL, methods = RequestMethod.DELETE)
     @DeleteMapping(DELETE_ORDER_PATH)
     public ResponseEntity<ResponseDeleteDTO> deleteOrder(@PathVariable Long orderId) {
         try {

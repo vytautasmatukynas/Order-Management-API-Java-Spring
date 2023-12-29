@@ -21,10 +21,10 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/v1")
 public class UsersController {
 
-    private final String REGISTER_PATH = "/user/register";
-    private final String AUTH_PATH = "/user/authenticate";
-    private final String CHANGE_PASSWORD_PATH = "/user/change/password";
-    private final String DELETE_PATH = "/user/delete";
+    private static final String REGISTER_PATH = "/user/register";
+    private static final String AUTH_PATH = "/user/authenticate";
+    private static final String CHANGE_PASSWORD_PATH = "/user/change/password";
+    private static final String DELETE_PATH = "/user/delete";
 
     private static final String CORS_URL = "http://localhost:3000";
 
