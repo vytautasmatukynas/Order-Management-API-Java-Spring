@@ -22,7 +22,7 @@ item revision, item count, item price, total price.
 API configurations:
 
 • `CORS configuration` (@CrossOrigin annotation) that enables access for `GET` `POST` `DELETE` and `UPDATE` requests. 
-Except for `delete user` and `register new user` requests. 
+Except for `get all user`, `delete user` and `register new user` requests. 
 
 • `Spring Security` + `JWT` for security and users handling.
 
