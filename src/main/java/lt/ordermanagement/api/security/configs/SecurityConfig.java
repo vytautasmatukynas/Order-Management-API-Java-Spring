@@ -55,7 +55,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/user/authenticate").permitAll()
 
                         .requestMatchers("/api/v1/user/register",
-                                        "/api/v1/user/delete").hasRole("ADMIN")
+                                        "/api/v1/user/delete",
+                                        "/api/v1/users").hasRole("ADMIN")
 
                         .requestMatchers("/api/v1/add/order",
                                         "/api/v1/update/order/{orderId}",

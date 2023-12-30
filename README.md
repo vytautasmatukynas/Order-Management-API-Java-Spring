@@ -7,11 +7,13 @@ It provides features for creating, updating, and tracking orders for efficient o
 
 <br>
 
-API uses `MySQL` database and has 3 tables - `orders` `order_items` `users`.
+API uses `SQL` database and has 3 tables - `orders` `order_items` `users`.
 
-`orders` table stores fundamental information about orders. 
+`orders` table stores fundamental information about orders - order number, order name, client name, client phone number,
+client email, order term, order status, order price, comments, order update date.
 
-`order_items` table contains more detailed information about each item within order. 
+`order_items` table contains more detailed information about each item within order - item name, item code, 
+item revision, item count, item price, total price.
 
 `users` table stores information about all users - first name, last name, username, password, role.
 
@@ -49,6 +51,7 @@ Except for `delete user` and `register new user` requests.
 |:----------------------------:|:--------------------:|
 |  /api/v1/user/authenticate   |     permitAll()      |
 | /api/v1/user/change/password | ADMIN, MANAGER, USER |
+|        /api/v1/users         |        ADMIN         |
 |    /api/v1/user/register     |        ADMIN         |
 |     /api/v1/user/delete      |        ADMIN         |
 
@@ -61,6 +64,10 @@ Except for `delete user` and `register new user` requests.
 <br>
 
 `CHANGE PASSWORD` endpoint: `/api/v1/user/change/password`.
+
+<br>
+
+`GET ALL` users endpoint: `/api/v1/users`.
 
 <br>
 

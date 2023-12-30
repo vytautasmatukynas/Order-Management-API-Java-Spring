@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 /**
  * Controller class handling user related endpoints.
  */
@@ -21,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/v1")
 public class UsersController {
 
+    private static final String GET_USERS_PATH = "/users";
     private static final String REGISTER_PATH = "/user/register";
     private static final String AUTH_PATH = "/user/authenticate";
     private static final String CHANGE_PASSWORD_PATH = "/user/change/password";
@@ -29,6 +32,29 @@ public class UsersController {
     private static final String CORS_URL = "http://localhost:3000";
 
     private final UsersService usersService;
+
+    /**
+     * Handles the user retrieval endpoint, returning a list of all users in the system.
+     *
+     * @return A {@link ResponseEntity} containing a list of {@link User} objects upon successful retrieval.
+     *         Returns 200 OK if the operation is successful.
+     * @throws ResponseStatusException with HTTP status FORBIDDEN (403) if the operation is not allowed.
+     * @throws ResponseStatusException with HTTP status INTERNAL_SERVER_ERROR (500) if an unexpected error occurs
+     * during the user retrieval process.
+     */
+    @GetMapping(GET_USERS_PATH)
+    public ResponseEntity<List<User>> getUsers() {
+        try {
+            return ResponseEntity.ok(usersService.getAllUser());
+
+        } catch (AccessDeniedException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "Forbidden: " + e.getMessage(), e);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unexpected error occurred while fetching users: " + e.getMessage());
+        }
+    }
 
     /**
      * Handles the user registration endpoint.

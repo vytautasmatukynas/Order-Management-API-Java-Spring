@@ -20,6 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Service class for user authentication and registration.
  */
@@ -31,6 +33,16 @@ public class UsersServiceImpl implements UsersService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+
+    /**
+     * Retrieves a list of all users in the system.
+     *
+     * @return A {@link List} of all users in the system.
+     */
+    @Override
+    public List<User> getAllUser() {
+        return userRepository.findAll();
+    }
 
     /**
      * Registers a new user based on the provided registration request.

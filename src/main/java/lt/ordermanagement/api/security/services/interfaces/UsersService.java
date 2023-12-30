@@ -5,10 +5,14 @@ import lt.ordermanagement.api.security.dtos.ChangePasswordRequestDTO;
 import lt.ordermanagement.api.security.dtos.DeleteUserRequestDTO;
 import lt.ordermanagement.api.security.models.User;
 
+import java.util.List;
+
 /**
  * Service interface for managing user-related operations.
  */
 public interface UsersService {
+
+    List<User> getAllUser();
 
     User registerUser(User user);
 
