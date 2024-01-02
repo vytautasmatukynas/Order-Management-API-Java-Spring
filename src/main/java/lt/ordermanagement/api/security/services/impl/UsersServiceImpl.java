@@ -140,6 +140,15 @@ public class UsersServiceImpl implements UsersService {
     }
 
     /**
+     * Retrieves the current authentication context.
+     *
+     * @return The current Authentication object representing the authentication context.
+     */
+    private Authentication getAuthenticationContext() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    /**
      * Retrieves the username of the currently authenticated user.
      *
      * @return The username of the authenticated user in lowercase.
@@ -158,15 +167,6 @@ public class UsersServiceImpl implements UsersService {
         return userRepository.findByUsername(getStoredUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found."))
                 .getPassword();
-    }
-
-    /**
-     * Retrieves the current authentication context.
-     *
-     * @return The current Authentication object representing the authentication context.
-     */
-    private Authentication getAuthenticationContext() {
-        return SecurityContextHolder.getContext().getAuthentication();
     }
 
 }
