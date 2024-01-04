@@ -64,7 +64,7 @@ Except for `get all user`, `delete user` and `register new user` requests.
 | /v3/api-docs/** | permitAll() |
 | /swagger-ui/**  | permitAll() |
 
-### Security configuration handling endpoints for different `ROLE` for `users`:
+### Security configuration handling endpoints for `users`:
 
 |           Endpoint           |         Role         |
 |:----------------------------:|:--------------------:|
@@ -100,16 +100,16 @@ Except for `get all user`, `delete user` and `register new user` requests.
 
 <br>
 
-### Security configuration handling endpoints for different `ROLE` for `orders`:
+### Security configuration handling endpoints for `orders`:
 
-|               Endpoint                |         Role         |
-|:-------------------------------------:|:--------------------:|
-|            /api/v1/orders             | ADMIN, MANAGER, USER |
-|        /api/v1/order/{orderId}        | ADMIN, MANAGER, USER |
-|   /api/v1/order/search/{orderParam}   | ADMIN, MANAGER, USER |
-|           /api/v1/add/order           |    ADMIN, MANAGER    |
-|    /api/v1/update/order/{orderId}     |    ADMIN, MANAGER    |
-|    /api/v1/delete/order/{orderId}     |    ADMIN, MANAGER    |
+|             Endpoint              |         Role         |
+|:---------------------------------:|:--------------------:|
+|          /api/v1/orders           | ADMIN, MANAGER, USER |
+|      /api/v1/order/{orderId}      | ADMIN, MANAGER, USER |
+| /api/v1/order/search/{orderParam} | ADMIN, MANAGER, USER |
+|         /api/v1/add/order         |    ADMIN, MANAGER    |
+|  /api/v1/update/order/{orderId}   |    ADMIN, MANAGER    |
+|  /api/v1/delete/order/{orderId}   |    ADMIN, MANAGER    |
 
 <br>
 
@@ -149,16 +149,16 @@ Except for `get all user`, `delete user` and `register new user` requests.
 
 <br>
 
-### Security configuration handling endpoints for different `ROLE` for `order_items`:
+### Security configuration handling endpoints for `order_items`:
 
-|                     Endpoint                      |         Role         |
-|:-------------------------------------------------:|:--------------------:|
-|           /api/v1/order/{orderId}/items           | ADMIN, MANAGER, USER |
-|            api/v1/order/item/{itemId}             | ADMIN, MANAGER, USER |
-|         /order/{orderId}/items/{itemName}         | ADMIN, MANAGER, USER |
-|             /order/{orderId}/add/item             |    ADMIN, MANAGER    |
-|            /order/update/item/{itemId}            |    ADMIN, MANAGER    |
-|            /order/delete/item/{itemId}            |    ADMIN, MANAGER    |
+|             Endpoint              |         Role         |
+|:---------------------------------:|:--------------------:|
+|   /api/v1/order/{orderId}/items   | ADMIN, MANAGER, USER |
+|    api/v1/order/item/{itemId}     | ADMIN, MANAGER, USER |
+| /order/{orderId}/items/{itemName} | ADMIN, MANAGER, USER |
+|     /order/{orderId}/add/item     |    ADMIN, MANAGER    |
+|    /order/update/item/{itemId}    |    ADMIN, MANAGER    |
+|    /order/delete/item/{itemId}    |    ADMIN, MANAGER    |
 
 <br>
 
