@@ -81,7 +81,7 @@ Except for `/api/v1/users`, `/api/v1/user/delete` and `/api/v1/user/register ` e
 
 ### Endpoints for `users`:
 
-![img_5.png](readmeImg/img_5.png)
+![img.png](readmeImg/img_5.png)
 
 `AUTHENTICATE` user endpoint: `/api/v1/user/authenticate`.
 
