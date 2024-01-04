@@ -10,12 +10,24 @@ It provides features for creating, updating, and tracking orders for efficient o
 API uses `SQL` database and has 3 tables - `orders` `order_items` `users`.
 
 `orders` table stores fundamental information about orders - order number, order name, client name, client phone number,
-client email, order term, order status, order price, comments, order update date.
+client email, order term, order status, order price, comments, order update date. 
+
+`order` schema:
+
+![img.png](readmeImg/img.png)
 
 `order_items` table contains more detailed information about each item within order - item name, item code, 
 item revision, item count, item price, total price.
 
+`order_item` schema:
+
+![img_1.png](readmeImg/img_1.png)
+
 `users` table stores information about all users - first name, last name, username, password, role.
+
+`user` schema:
+
+![img_2.png](readmeImg/img_2.png)
 
 <br>
 
@@ -37,9 +49,9 @@ Except for `get all user`, `delete user` and `register new user` requests.
 
 ### `JUnit` test for services (`GET` for now...), mocks 10000 requests:
 
-![img_2.png](readmeImg/img_2.png)
+![img_1.png](readmeImg/img_6.png)
 
-![img_1.png](readmeImg/img_1.png)
+![img_2.png](readmeImg/img_7.png)
 
 <br>
 
@@ -58,6 +70,8 @@ Except for `get all user`, `delete user` and `register new user` requests.
 <br>
 
 ### Endpoints for `users`:
+
+![img_5.png](readmeImg/img_5.png/img_5.png)
 
 `AUTHENTICATE` user endpoint: `/api/v1/user/authenticate`.
 
@@ -93,6 +107,8 @@ Except for `get all user`, `delete user` and `register new user` requests.
 <br>
 
 ### Endpoints for `orders`:
+
+![img_3.png](readmeImg/img_3.png/img_3.png)
 
 • `GET ALL` orders and order items endpoint: `/api/v1/orders`.
 
@@ -140,6 +156,8 @@ Except for `get all user`, `delete user` and `register new user` requests.
 <br>
 
 ### Endpoints for `order_items`:
+
+![img_4.png](readmeImg/img_4.png/img_4.png)
 
 • `GET` specific `order` all `order_items` endpoint: `/api/v1/order/{orderId}/items`.
 
