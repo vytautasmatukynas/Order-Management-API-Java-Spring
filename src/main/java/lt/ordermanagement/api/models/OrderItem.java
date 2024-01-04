@@ -1,5 +1,6 @@
 package lt.ordermanagement.api.models;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -11,11 +12,12 @@ import lombok.NoArgsConstructor;
 /**
  * Entity class represents information about an item in an order.
  */
-@Entity
-@Table(name = "order_items")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "order_items")
+@Schema(description = "OrderItem entity representing detailed information about an order associated order item")
 public class OrderItem {
 
     @Id

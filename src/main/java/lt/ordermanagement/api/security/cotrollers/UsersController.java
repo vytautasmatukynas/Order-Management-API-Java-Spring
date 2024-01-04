@@ -98,7 +98,7 @@ public class UsersController {
      * the registration process.
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.POST)
-    @Operation(summary = "PUBLIC ENDPOINT", security = @SecurityRequirement(name = ""))
+    @Operation(summary = "Doesn't require JWT token, just User credentials", security = @SecurityRequirement(name = ""))
     @PostMapping(AUTH_PATH)
     public ResponseEntity<AuthenticationResponseDTO> authenticate(
                         @Valid @RequestBody AuthenticationRequestDTO request) {

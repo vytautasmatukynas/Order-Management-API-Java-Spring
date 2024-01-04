@@ -1,5 +1,6 @@
 package lt.ordermanagement.api.security.dtos;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -12,14 +13,17 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(description = "Request DTO for generating JWT token")
 public class AuthenticationRequestDTO {
 
     @NotBlank()
     @Size(min = 5, max = 20)
+    @Schema(description = "The username for authentication")
     private String username;
 
     @NotBlank()
     @Size(min = 8)
+    @Schema(description = "The password for authentication")
     private String password;
 
 }

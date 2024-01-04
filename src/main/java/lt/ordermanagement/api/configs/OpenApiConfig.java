@@ -56,5 +56,6 @@ public class OpenApiConfig {
                 // Define the name of the header carrying the JWT token as "Authorization".
                 .name("Authorization");
     }
+
 }
 

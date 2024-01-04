@@ -2,7 +2,6 @@ package lt.ordermanagement.api.services.Interfaces;
 
 import lt.ordermanagement.api.models.Order;
 
-import java.io.IOException;
 import java.util.List;
 
 /**

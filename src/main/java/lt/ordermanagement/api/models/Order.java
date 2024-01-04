@@ -1,6 +1,7 @@
 package lt.ordermanagement.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -15,11 +16,12 @@ import java.util.List;
 /**
  * Entity class represents information about order.
  */
-@Entity
-@Table(name = "orders")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "orders")
+@Schema(description = "Order entity representing information about an order")
 public class Order {
 
     @Id

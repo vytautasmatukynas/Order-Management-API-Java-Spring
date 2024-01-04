@@ -1,5 +1,7 @@
 package lt.ordermanagement.api.security.models;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -22,6 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
+@Schema(description = "User entity representing detailed information about a user")
 public class User implements UserDetails {
 
     @Id
@@ -78,6 +81,7 @@ public class User implements UserDetails {
      *
      * @return A list of granted authorities.
      */
+    @Hidden
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
