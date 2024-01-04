@@ -57,6 +57,13 @@ Except for `get all user`, `delete user` and `register new user` requests.
 
 ## More details about API functionality:
 
+### Security configuration handling endpoints for `swagger`:
+
+|    Endpoint     |    Role     |
+|:---------------:|:-----------:|
+| /v3/api-docs/** | permitAll() |
+| /swagger-ui/**  | permitAll() |
+
 ### Security configuration handling endpoints for different `ROLE` for `users`:
 
 |           Endpoint           |         Role         |
@@ -71,7 +78,7 @@ Except for `get all user`, `delete user` and `register new user` requests.
 
 ### Endpoints for `users`:
 
-![img_5.png](readmeImg/img_5.png/img_5.png)
+![img_5.png](readmeImg/img_5.png)
 
 `AUTHENTICATE` user endpoint: `/api/v1/user/authenticate`.
 
@@ -108,7 +115,7 @@ Except for `get all user`, `delete user` and `register new user` requests.
 
 ### Endpoints for `orders`:
 
-![img_3.png](readmeImg/img_3.png/img_3.png)
+![img_3.png](readmeImg/img_3.png)
 
 • `GET ALL` orders and order items endpoint: `/api/v1/orders`.
 
@@ -157,7 +164,7 @@ Except for `get all user`, `delete user` and `register new user` requests.
 
 ### Endpoints for `order_items`:
 
-![img_4.png](readmeImg/img_4.png/img_4.png)
+![img_4.png](readmeImg/img_4.png)
 
 • `GET` specific `order` all `order_items` endpoint: `/api/v1/order/{orderId}/items`.
 
