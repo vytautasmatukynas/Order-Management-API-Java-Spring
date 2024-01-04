@@ -33,10 +33,13 @@ item revision, item count, item price, total price.
 
 API configurations:
 
-• `CORS configuration` (@CrossOrigin annotation) that enables access for `GET` `POST` `DELETE` and `UPDATE` requests. 
-Except for `get all user`, `delete user` and `register new user` requests. 
+• `OpenAPI configuration` (Swagger) that enables JWT auth for `GET` `POST` `DELETE` and `UPDATE` requests.
+Except for `/api/v1/user/authenticate` endpoint.
 
-• `Spring Security` + `JWT` for security and users handling.
+• `CORS configuration` (@CrossOrigin annotation) that enables access for `GET` `POST` `DELETE` and `UPDATE` requests. 
+Except for `/api/v1/users`, `/api/v1/user/delete` and `/api/v1/user/register ` endpoints. 
+
+• `Spring Security configuration` + `JWT` for security and users handling.
 
 • `Spring Security` uses hierarchical architecture for managing `ROLES`. There are 3 `ROLES`:
 1. `ROLE_ADMIN` can do every action there is for all `GET` `POST` `DELETE` and `UPDATE` requests. 
@@ -125,9 +128,9 @@ Except for `get all user`, `delete user` and `register new user` requests.
 
 <br>
 
-• `Search` orders by `order_code` `order_name` `client` `client_phone_number` `client_email` endpoint: `/api/v1/order/search/{orderParam}`.
+• `SEARCH` orders by `order_code` `order_name` `client` `client_phone_number` `client_email` endpoint: `/api/v1/order/search/{orderParam}`.
 
-• `Search` is case-insensitive and you don't need to provide full name of search parameter.
+• `SEARCH` is case-insensitive and you don't need to provide full name of search parameter.
 
 <br>
 
@@ -174,9 +177,9 @@ Except for `get all user`, `delete user` and `register new user` requests.
 
 <br>
 
-• `Search` order items by `item_name` endpoint: `/order/{orderId}/items/{itemName}`.
+• `SEARCH` order items by `item_name` endpoint: `/order/{orderId}/items/{itemName}`.
 
-• `Search` is case-insensitive and you don't need to provide full name of search item.
+• `SEARCH` is case-insensitive and you don't need to provide full name of search item.
 
 <br>
 

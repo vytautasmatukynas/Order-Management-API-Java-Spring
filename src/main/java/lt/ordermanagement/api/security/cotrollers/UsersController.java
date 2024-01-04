@@ -1,5 +1,7 @@
 package lt.ordermanagement.api.security.cotrollers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lt.ordermanagement.api.security.dtos.*;
@@ -96,6 +98,7 @@ public class UsersController {
      * the registration process.
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.POST)
+    @Operation(summary = "PUBLIC ENDPOINT", security = @SecurityRequirement(name = ""))
     @PostMapping(AUTH_PATH)
     public ResponseEntity<AuthenticationResponseDTO> authenticate(
                         @Valid @RequestBody AuthenticationRequestDTO request) {
