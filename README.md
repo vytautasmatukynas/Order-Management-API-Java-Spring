@@ -50,7 +50,7 @@ Except for `/api/v1/users`, `/api/v1/user/delete` and `/api/v1/user/register ` e
 
 <br>
 
-### `JUnit` test for services (`GET` for now...), mocks 10000 requests:
+### `JUnit` test for services, mocks `GET` requests:
 
 ![img_1.png](readmeImg/img_6.png)
 
