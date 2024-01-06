@@ -1,8 +1,8 @@
 # Order Management REST API
 
-This is `Java` `Spring Boot` back-end REST API for `Order Managment Application`.
+This is `Java` `Spring Boot` back-end REST API for `Order Management Application`.
 
-`Order Managment Application` is designed to streamline and manage the process of handling orders.
+`Order Management Application` is designed to streamline and manage the process of handling orders.
 It provides features for creating, updating, and tracking orders for efficient order fulfillment.
 
 <br>
