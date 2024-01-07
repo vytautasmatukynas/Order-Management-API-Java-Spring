@@ -1,6 +1,10 @@
-# Order Management REST API
+# Order Management Application REST API
 
 This is `Java` `Spring Boot` back-end REST API for `Order Management Application`.
+
+Link to `Android` front-end code: [Front-End](https://github.com/vytautasmatukynas/Order-Management-App-Java-Android)
+
+<br>
 
 `Order Management Application` is designed to streamline and manage the process of handling orders.
 It provides features for creating, updating, and tracking orders for efficient order fulfillment.
@@ -50,7 +54,7 @@ Except for `/api/v1/users`, `/api/v1/user/delete` and `/api/v1/user/register ` e
 
 <br>
 
-### `JUnit` test for services, mocks `GET` requests:
+### `Unit` test for services, mocks `GET` requests:
 
 ![img_1.png](readmeImg/img_6.png)
 
