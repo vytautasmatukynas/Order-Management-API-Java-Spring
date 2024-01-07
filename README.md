@@ -1,4 +1,4 @@
-# Order Management REST API
+# Order Management Application REST API
 
 This is `Java` `Spring Boot` back-end REST API for `Order Management Application`.
 
