@@ -165,6 +165,9 @@ Except for `/api/v1/users`, `/api/v1/user/delete` and `/api/v1/user/register ` e
 
 • `DELETE` order endpoint: `/api/v1/delete/order/{orderId}`.
 
+• When performing deletion of `order`, `order` and all associated `order_item` `isDeleted` field is set to `true`. 
+To restore deleted orders and order items, you need to change `isDeleted` status back to `false`.
+
 <br>
 
 ### Security configuration handling endpoints for `order_items`:
@@ -217,3 +220,6 @@ Except for `/api/v1/users`, `/api/v1/user/delete` and `/api/v1/user/register ` e
 • `DELETE` `order_item` endpoint: `/order/delete/item/{itemId}`.
 
 • After deleting `order_item` - `order_price` in `orders` table will be automatically updated.
+
+• When performing deletion of `order_item`, `isDeleted` field is set to `true`. To restore deleted order items, 
+you need to change `isDeleted` status back to `false`.
