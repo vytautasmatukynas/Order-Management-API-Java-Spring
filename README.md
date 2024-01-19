@@ -47,7 +47,7 @@ Except for `/api/v1/users`, `/api/v1/user/delete` and `/api/v1/user/register ` e
 
 • `Spring Security` uses hierarchical architecture for managing `ROLES`. There are 3 `ROLES`:
 1. `ROLE_ADMIN` can do every action there is for all `GET` `POST` `DELETE` and `UPDATE` requests. 
-2. `ROLE_MANAGER` has same privileges for `GET` `POST` `DELETE` and `UPDATE` requests, just can't `delete` old user 
+2. `ROLE_MANAGER` has same privileges for `GET` `POST` `DELETE` and `UPDATE` requests. Can't `delete` old user, 
 `register` new user and change `isEnabled` status. 
 3. `ROLE_USER` has privileges for `GET` requests, basically `Read-Only` for `orders` and `order_items`, except it has 2 
 `POST` requests for `change password` and `authenticate`.
