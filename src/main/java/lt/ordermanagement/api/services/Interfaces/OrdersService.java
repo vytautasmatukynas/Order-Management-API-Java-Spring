@@ -26,8 +26,6 @@ public interface OrdersService {
 
     void deleteOrder(Long orderId);
 
-    String generateOrderNumber();
-
     Double countTotalOrderPrice(Long orderId);
 
 }

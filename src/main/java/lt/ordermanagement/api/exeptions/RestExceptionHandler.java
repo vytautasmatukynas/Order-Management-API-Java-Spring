@@ -1,16 +1,17 @@
 package lt.ordermanagement.api.exeptions;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.NoSuchElementException;
 
 /**
  * Global exception handler for REST controllers.
@@ -46,12 +47,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Handles {@link NoSuchElementException} by generating a standardized API error response.
+     * Handles {@link EntityNotFoundException} by generating a standardized API error response.
      *
      * @param e The exception indicating that the requested element was not found.
      * @return A {@link ResponseEntity} with a {@link ApiErrorDTO} representing the error response.
      */
-    @ExceptionHandler({NoSuchElementException.class})
+    @ExceptionHandler({EntityNotFoundException.class})
     public ResponseEntity<ApiErrorDTO> handleNotFound(Exception e) {
         ApiErrorDTO apiError = new ApiErrorDTO(
                 HttpStatus.NOT_FOUND,
@@ -65,7 +66,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @param e The exception indicating that the access is denied.
      * @return A {@link ResponseEntity} with a {@link ApiErrorDTO} representing the error response.
      */
-    @ExceptionHandler({AccessDeniedException.class})
+    @ExceptionHandler({AccessDeniedException.class, DisabledException.class})
     public ResponseEntity<ApiErrorDTO> handleAccessException(Exception e) {
         ApiErrorDTO apiError = new ApiErrorDTO(
                 HttpStatus.FORBIDDEN,

@@ -2,7 +2,7 @@
 
 This is `Java` `Spring Boot` back-end REST API for `Order Management Application`.
 
-Link to `Android` front-end code: [Front-End](https://github.com/vytautasmatukynas/Order-Management-App-Java-Android)
+Link to `Android` front-end code: [Front-end](https://github.com/vytautasmatukynas/Order-Management-App-Java-Android)
 
 <br>
 
@@ -14,20 +14,20 @@ It provides features for creating, updating, and tracking orders for efficient o
 API uses `SQL` database and has 3 tables - `orders` `order_items` `users`.
 
 `orders` table stores fundamental information about orders - order number, order name, client name, client phone number,
-client email, order term, order status, order price, comments, order update date. 
+client email, order term, order status, order price, comments, order update date, is deleted.
 
 `order` schema:
 
 ![img.png](readmeImg/img.png)
 
 `order_items` table contains more detailed information about each item within order - item name, item code, 
-item revision, item count, item price, total price.
+item revision, item count, item price, total price, order update date, is deleted.
 
 `order_item` schema:
 
 ![img_1.png](readmeImg/img_1.png)
 
-`users` table stores information about all users - first name, last name, username, password, role.
+`users` table stores information about all users - first name, last name, username, password, role, is enabled.
 
 `user` schema:
 
@@ -50,7 +50,7 @@ Except for `/api/v1/users`, `/api/v1/user/delete` and `/api/v1/user/register ` e
 2. `ROLE_MANAGER` has same privileges for `GET` `POST` `DELETE` and `UPDATE` requests, just can't `delete` old user and 
 `register` new user. 
 3. `ROLE_USER` has privileges for `GET` requests, basically `Read-Only` for `orders` and `order_items`, except it has 2 
-`POST` requests for `change password` and `register`.
+`POST` requests for `change password` and `authenticate`.
 
 <br>
 
@@ -71,6 +71,12 @@ Except for `/api/v1/users`, `/api/v1/user/delete` and `/api/v1/user/register ` e
 | /v3/api-docs/** | permitAll() |
 | /swagger-ui/**  | permitAll() |
 
+<br>
+
+`SWAGGER UI` endpoint: `/swagger-ui/index.html`.
+
+<br>
+
 ### Security configuration handling endpoints for `users`:
 
 |           Endpoint           |         Role         |
@@ -80,6 +86,7 @@ Except for `/api/v1/users`, `/api/v1/user/delete` and `/api/v1/user/register ` e
 |        /api/v1/users         |        ADMIN         |
 |    /api/v1/user/register     |        ADMIN         |
 |     /api/v1/user/delete      |        ADMIN         |
+|     /api/v1/user/status      |        ADMIN         |
 
 <br>
 
@@ -104,6 +111,10 @@ Except for `/api/v1/users`, `/api/v1/user/delete` and `/api/v1/user/register ` e
 <br>
 
 `DELETE` user endpoint: `/api/v1/user/delete`.
+
+<br>
+
+`ENABLE` `DISABLE` user endpoint: `/api/v1/user/status`.
 
 <br>
 

@@ -1,5 +1,6 @@
 package lt.ordermanagement.api.controllers;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lt.ordermanagement.api.dtos.ResponseDeleteDTO;
@@ -8,13 +9,11 @@ import lt.ordermanagement.api.services.Interfaces.OrderItemsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 /**
  * REST Controller for managing order items.
@@ -47,8 +46,7 @@ public class OrderItemsController {
      * @param orderId The ID of the order for which to retrieve items.
      * @return ResponseEntity containing a list of order items or a NOT_FOUND status if the order or items are not found.
      *         Throws a ResponseStatusException with INTERNAL_SERVER_ERROR if an unexpected error occurs.
-     *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
-     *         NoSuchElementException, Exception
+     *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.GET)
     @GetMapping(ITEMS_PATH)
@@ -56,15 +54,12 @@ public class OrderItemsController {
         try {
             return ResponseEntity.ok(orderItemsService.getOrderItems(orderId));
 
-        } catch (BadCredentialsException | UsernameNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                    "Unauthorized: " + e.getMessage());
-        } catch (AccessDeniedException e) {
+        } catch (AccessDeniedException | DisabledException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "Forbidden: " + e.getMessage());
-        } catch (NoSuchElementException e) {
+        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Order not found: " + e.getMessage());
+                    "Not found: " + e.getMessage());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Unexpected error fetching order or order items: " + e.getMessage());
@@ -77,8 +72,7 @@ public class OrderItemsController {
      * @param itemId The ID of the order item to delete.
      * @return ResponseEntity containing a delete response or a NOT_FOUND status if the item is not found.
      *         Throws a ResponseStatusException with INTERNAL_SERVER_ERROR if an unexpected error occurs.
-     *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
-     *         NoSuchElementException, Exception
+     *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.GET)
     @GetMapping(ITEM_PATH)
@@ -86,15 +80,12 @@ public class OrderItemsController {
         try {
             return ResponseEntity.ok(orderItemsService.getOrderItem(itemId));
 
-        } catch (BadCredentialsException | UsernameNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                    "Unauthorized: " + e.getMessage());
-        } catch (AccessDeniedException e) {
+        } catch (AccessDeniedException | DisabledException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "Forbidden: " + e.getMessage());
-        } catch (NoSuchElementException e) {
+        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Order item not found: " + e.getMessage());
+                    "Not found: " + e.getMessage());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Unexpected error fetching order item: " + e.getMessage());
@@ -107,8 +98,7 @@ public class OrderItemsController {
      * @param orderId The ID of the order for which to export items to Excel.
      * @return ResponseEntity containing an export response or a NOT_FOUND status if the items are not found.
      *         Throws a ResponseStatusException with INTERNAL_SERVER_ERROR if an unexpected error occurs.
-     *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
-     *         IOException
+     *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.GET)
     @GetMapping(SEARCH_ORDER_ITEM_PATH)
@@ -117,15 +107,12 @@ public class OrderItemsController {
         try {
             return ResponseEntity.ok(orderItemsService.findOrderItemsByName(orderId, itemName));
 
-        } catch (BadCredentialsException | UsernameNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                    "Unauthorized: " + e.getMessage());
-        } catch (AccessDeniedException e) {
+        } catch (AccessDeniedException | DisabledException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "Forbidden: " + e.getMessage());
-        } catch (NoSuchElementException e) {
+        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Order items not found: " + e.getMessage());
+                    "Not found: " + e.getMessage());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Unexpected error fetching order items: " + e.getMessage());
@@ -139,8 +126,7 @@ public class OrderItemsController {
      * @param orderItem The order item data to be added.
      * @return ResponseEntity containing the added order item or a NOT_FOUND status if an error occurs.
      *         Throws a ResponseStatusException with INTERNAL_SERVER_ERROR if an unexpected error occurs.
-     *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
-     *         NoSuchElementException, Exception
+     *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.POST)
     @PostMapping(ADD_ITEM_PATH)
@@ -149,15 +135,12 @@ public class OrderItemsController {
         try {
             return ResponseEntity.ok(orderItemsService.addItemToOrder(orderId, orderItem));
 
-        } catch (BadCredentialsException | UsernameNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                    "Unauthorized: " + e.getMessage());
-        } catch (AccessDeniedException e) {
+        } catch (AccessDeniedException | DisabledException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "Forbidden: " + e.getMessage());
-        } catch (NoSuchElementException e) {
+        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Order not found: " + e.getMessage());
+                    "Not found: " + e.getMessage());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Unexpected error creating order item: " + e.getMessage());
@@ -171,8 +154,7 @@ public class OrderItemsController {
      * @param orderItem The updated order item data.
      * @return ResponseEntity containing the updated order item or a NOT_FOUND status if the item is not found.
      *         Throws a ResponseStatusException with INTERNAL_SERVER_ERROR if an unexpected error occurs.
-     *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
-     *         NoSuchElementException, Exception
+     *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.PUT)
     @PutMapping(UPDATE_ITEM_PATH)
@@ -181,15 +163,12 @@ public class OrderItemsController {
         try {
             return ResponseEntity.ok(orderItemsService.updateOrderItem(itemId, orderItem));
 
-        } catch (BadCredentialsException | UsernameNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                    "Unauthorized: " + e.getMessage());
-        } catch (AccessDeniedException e) {
+        } catch (AccessDeniedException | DisabledException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "Forbidden: " + e.getMessage());
-        } catch (NoSuchElementException e) {
+        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Order item not found: " + e.getMessage());
+                    "Not found: " + e.getMessage());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Unexpected error updating order item: " + e.getMessage());
@@ -202,11 +181,10 @@ public class OrderItemsController {
      * @param itemId The ID of the order item to delete.
      * @return ResponseEntity containing a delete response or a NOT_FOUND status if the item is not found.
      *         Throws a ResponseStatusException with INTERNAL_SERVER_ERROR if an unexpected error occurs.
-     *         Possible Exceptions: BadCredentialsException, UsernameNotFoundException, AccessDeniedException,
-     *         NoSuchElementException, Exception
+     *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.DELETE)
-    @DeleteMapping(DELETE_ITEM_PATH)
+    @PutMapping(DELETE_ITEM_PATH)
     public ResponseEntity<ResponseDeleteDTO> deleteOrderItem(@PathVariable Long itemId) {
         try {
             orderItemsService.deleteOrderItem(itemId);
@@ -217,15 +195,12 @@ public class OrderItemsController {
 
             return ResponseEntity.ok(responseItemDeleteDTO);
 
-        } catch (BadCredentialsException | UsernameNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                    "Unauthorized: " + e.getMessage());
-        } catch (AccessDeniedException e) {
+        } catch (AccessDeniedException | DisabledException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "Forbidden: " + e.getMessage());
-        } catch (NoSuchElementException e) {
+        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Order item not found: " + e.getMessage());
+                    "Not found: " + e.getMessage());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Unexpected error while deleting order item: "  + e.getMessage());

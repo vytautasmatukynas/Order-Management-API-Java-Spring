@@ -1,14 +1,15 @@
 package lt.ordermanagement.api.services.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lt.ordermanagement.api.models.Order;
 import lt.ordermanagement.api.models.OrderItem;
 import lt.ordermanagement.api.repositories.OrdersRepository;
 import lt.ordermanagement.api.services.Interfaces.OrdersService;
+import lt.ordermanagement.api.utils.GenerateDate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
 
@@ -44,7 +45,8 @@ public class OrdersServiceImpl implements OrdersService {
      */
     @Override
     public Order getOrderById(Long orderId) {
-        return ordersRepository.findById(orderId).orElseThrow();
+        return ordersRepository.findById(orderId).orElseThrow(
+                () -> new EntityNotFoundException("Order not found with ID: " + orderId));
     }
 
     /**
@@ -73,7 +75,7 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public void addOrder(Order order) {
         order.setOrderNumber(generateOrderNumber());
-        order.setOrderUpdateDate(generateOrderUpdateDate());
+        order.setOrderUpdateDate(GenerateDate.generateCurrentDate());
 
         ordersRepository.save(order);
     }
@@ -96,7 +98,7 @@ public class OrdersServiceImpl implements OrdersService {
         oldOrder.setOrderStatus(order.getOrderStatus());
         oldOrder.setOrderPrice(countTotalOrderPrice(orderId));
         oldOrder.setComments(order.getComments());
-        oldOrder.setOrderUpdateDate(generateOrderUpdateDate());
+        oldOrder.setOrderUpdateDate(GenerateDate.generateCurrentDate());
 
         ordersRepository.save(oldOrder);
 
@@ -104,16 +106,23 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     /**
-     * Deletes an order by its ID.
+     * Sets isDeleted order and all order items to 'true'.
      *
-     * @param orderId The ID of the order to delete.
+     * @param orderId The ID of the order to set isDeleted.
      */
     @Transactional
     @Override
     public void deleteOrder(Long orderId) {
-        Order order = ordersRepository.findById(orderId).orElseThrow();
+        Order order = ordersRepository.findById(orderId).orElseThrow(
+                () -> new EntityNotFoundException("Order not found with ID: " + orderId));
 
-        ordersRepository.delete(order);
+        order.setIsDeleted(true);
+
+        List<OrderItem> orderItems = order.getOrderItems();
+
+        orderItems.forEach(item -> item.setIsDeleted(true));
+
+        ordersRepository.save(order);
     }
 
     /**
@@ -123,7 +132,9 @@ public class OrdersServiceImpl implements OrdersService {
      */
     @Override
     public Double countTotalOrderPrice(Long orderId) {
-        Order order = ordersRepository.findById(orderId).orElseThrow();
+        Order order = ordersRepository.findById(orderId).orElseThrow(
+                () -> new EntityNotFoundException("Order not found with ID: " + orderId));
+
         List<OrderItem> orderItemList = order.getOrderItems();
 
         return orderItemList.stream()
@@ -136,8 +147,7 @@ public class OrdersServiceImpl implements OrdersService {
      *
      * @return The generated order number.
      */
-    @Override
-    public String generateOrderNumber() {
+    private String generateOrderNumber() {
         String characters = "0123456789";
         int length = 10;
 
@@ -163,15 +173,6 @@ public class OrdersServiceImpl implements OrdersService {
      */
     private boolean orderNumberExists(String orderNumber) {
         return ordersRepository.existsByOrderNumber(orderNumber);
-    }
-
-    /**
-     * Gets the current date as a string representation for updating an order.
-     *
-     * @return A string representation of the current date in 'YYYY-MM-DD' format.
-     */
-    private String generateOrderUpdateDate() {
-        return LocalDate.now().toString();
     }
 
 }

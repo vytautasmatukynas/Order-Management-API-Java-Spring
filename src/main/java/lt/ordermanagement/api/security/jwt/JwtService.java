@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,14 @@ import java.util.stream.Collectors;
 @Service
 public class JwtService {
 
-    // Secret key should be harder and should be stored somewhere safe
-    private static final String SECRET_KEY = "yourLinkToSecretKey";
+    @Value("${security.jwt.secret-key}")
+    private String secretKey;
+
+    @Value("${security.jwt.expiration}")
+    private long jwtExpiration;
+
+    @Value("${security.jwt.refresh-expiration}")
+    private long refreshExpiration;
 
     /**
      * Extracts the username from the JWT token.
@@ -64,12 +71,6 @@ public class JwtService {
      * @return The generated JWT token.
      */
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        long nowMillis = System.currentTimeMillis();
-        Date issuedAt = new Date(nowMillis);
-
-        long expirationMillis = nowMillis + 24 * 3600 * 1000; // Set the token expiration 24 hours
-        Date expiration = new Date(expirationMillis);
-
         // Extract user roles from the UserDetails object
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         Set<String> userRoles = authorities.stream()
@@ -81,8 +82,8 @@ public class JwtService {
                 .claims(extraClaims)
                 .claim("roles", userRoles) // Include user roles in the JWT token
                 .subject(userDetails.getUsername()) // Include user username in the JWT token
-                .issuedAt(issuedAt)
-                .expiration(expiration)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + jwtExpiration)) // Set the token expiration
                 .signWith(setSignInKey())
                 .compact();
     }
@@ -139,7 +140,7 @@ public class JwtService {
      * @return The secret key for JWT token verification.
      */
     private SecretKey setSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
 
         if (keyBytes.length < 32) {
             byte[] paddedKeyBytes = new byte[32];

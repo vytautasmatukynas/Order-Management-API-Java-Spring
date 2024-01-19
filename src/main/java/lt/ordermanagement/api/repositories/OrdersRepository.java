@@ -15,15 +15,18 @@ import java.util.List;
 public interface OrdersRepository extends JpaRepository<Order, Long> {
 
     /**
-     * Retrieves a list of orders sorted by orderUpdateDate, orderTerm, clientName, and orderName.
+     * Retrieves a list of orders where isDeleted is false and sorted by orderUpdateDate, orderTerm, clientName
+     * and orderName.
      *
      * @return A sorted list of orders.
      */
-    @Query("SELECT o FROM Order o ORDER BY o.orderUpdateDate DESC, o.orderTerm, o.clientName, o.orderName")
+    @Query("SELECT o FROM Order o WHERE o.isDeleted = false " +
+            "ORDER BY o.orderUpdateDate DESC, o.orderTerm, o.clientName, o.orderName")
     List<Order> findAllSorted();
 
     /**
      * Retrieves a list of orders based on multiple parameters with case-insensitive partial matches.
+     * Where isDeleted is false and sorted by orderUpdateDate, orderTerm, clientName and orderName.
      *
      * @param orderNumber        The partial match for the order number.
      * @param orderName          The partial match for the order name.
@@ -32,7 +35,7 @@ public interface OrdersRepository extends JpaRepository<Order, Long> {
      * @param clientEmail        The partial match for the client email.
      * @return A list of orders matching the specified criteria.
      */
-    @Query("SELECT o FROM Order o WHERE " +
+    @Query("SELECT o FROM Order o WHERE o.isDeleted = false AND " +
     "(:orderNumber IS NULL OR LOWER(o.orderNumber) LIKE LOWER(CONCAT('%', :orderNumber, '%'))) OR " +
     "(:orderName IS NULL OR LOWER(o.orderName) LIKE LOWER(CONCAT('%', :orderName, '%'))) OR " +
     "(:clientName IS NULL OR LOWER(o.clientName) LIKE LOWER(CONCAT('%', :clientName, '%'))) OR " +

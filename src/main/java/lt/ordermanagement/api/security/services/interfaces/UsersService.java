@@ -2,7 +2,7 @@ package lt.ordermanagement.api.security.services.interfaces;
 
 import lt.ordermanagement.api.security.dtos.AuthenticationRequestDTO;
 import lt.ordermanagement.api.security.dtos.ChangePasswordRequestDTO;
-import lt.ordermanagement.api.security.dtos.DeleteUserRequestDTO;
+import lt.ordermanagement.api.security.dtos.EnableDisableUserRequestDTO;
 import lt.ordermanagement.api.security.models.User;
 
 import java.util.List;
@@ -20,6 +20,6 @@ public interface UsersService {
 
     void changePassword(ChangePasswordRequestDTO request);
 
-    void deleteUser(DeleteUserRequestDTO request);
+    void disableEnableUser(EnableDisableUserRequestDTO request);
 
 }

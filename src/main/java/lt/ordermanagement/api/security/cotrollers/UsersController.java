@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,7 +30,7 @@ public class UsersController {
     private static final String REGISTER_PATH = "/user/register";
     private static final String AUTH_PATH = "/user/authenticate";
     private static final String CHANGE_PASSWORD_PATH = "/user/change/password";
-    private static final String DELETE_PATH = "/user/delete";
+    private static final String ENABLE_DISABLE_PATH = "/user/status";
 
     private static final String CORS_URL = "http://localhost:3000";
 
@@ -49,7 +50,7 @@ public class UsersController {
         try {
             return ResponseEntity.ok(usersService.getAllUser());
 
-        } catch (AccessDeniedException e) {
+        } catch (AccessDeniedException | DisabledException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "Forbidden: " + e.getMessage(), e);
         } catch (Exception e) {
@@ -77,7 +78,7 @@ public class UsersController {
         } catch (BadCredentialsException | UsernameNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "Unauthorized: " + e.getMessage(), e);
-        } catch (AccessDeniedException e) {
+        } catch (AccessDeniedException | DisabledException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "Forbidden: " + e.getMessage(), e);
         } catch (Exception e) {
@@ -88,6 +89,7 @@ public class UsersController {
 
     /**
      * Handles the user authentication endpoint.
+     * This method uses Swagger annotation @Operation for documentation purposes and security requirement.
      *
      * @param request The {@link AuthenticationRequestDTO} containing the authentication request data.
      * @return A {@link ResponseEntity} with the result of the authentication operation wrapped in an {@link AuthenticationResponseDTO}.
@@ -98,7 +100,9 @@ public class UsersController {
      * the registration process.
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.POST)
-    @Operation(summary = "Doesn't require JWT token, just User credentials", security = @SecurityRequirement(name = ""))
+    @Operation(summary = "Doesn't require JWT token, just User credentials",
+            description = "Validates user credentials and returns an authentication token",
+            security = @SecurityRequirement(name = ""))
     @PostMapping(AUTH_PATH)
     public ResponseEntity<AuthenticationResponseDTO> authenticate(
                         @Valid @RequestBody AuthenticationRequestDTO request) {
@@ -112,7 +116,7 @@ public class UsersController {
         } catch (BadCredentialsException | UsernameNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "Unauthorized: " + e.getMessage());
-        } catch (AccessDeniedException e) {
+        } catch (AccessDeniedException | DisabledException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "Forbidden: " + e.getMessage(), e);
         } catch (Exception e) {
@@ -148,7 +152,7 @@ public class UsersController {
         } catch (BadCredentialsException | UsernameNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "Unauthorized: " + e.getMessage());
-        } catch (AccessDeniedException e) {
+        } catch (AccessDeniedException | DisabledException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "Forbidden: " + e.getMessage(), e);
         } catch (Exception e) {
@@ -158,37 +162,38 @@ public class UsersController {
     }
 
     /**
-     * Handles the HTTP DELETE request to delete a user.
+     * Handles the HTTP PUT request to enable or disable a user based on the provided credentials.
      *
-     * @param request The {@link DeleteUserRequestDTO} containing the username of the user to be deleted.
-     * @return A {@link ResponseEntity} with the result of the user deletion operation wrapped in a {@link DeleteUserResponseDTO}.
-     *         Returns 200 OK if the user is deleted successfully.
-     * @throws ResponseStatusException with HTTP status UNAUTHORIZED (401) if the credentials are invalid.
+     * @param request The {@link EnableDisableUserRequestDTO} containing the username and credentials for the user
+     *                whose status is to be enabled or disabled.
+     * @return A {@link ResponseEntity} with the result of the user status change operation wrapped in a
+     *         {@link EnableDisableUserResponseDTO}. Returns 200 OK if the user status is changed successfully.
+     * @throws ResponseStatusException with HTTP status UNAUTHORIZED (401) if the provided credentials are invalid.
      * @throws ResponseStatusException with HTTP status FORBIDDEN (403) if the operation is not allowed.
-     * @throws ResponseStatusException with HTTP status INTERNAL_SERVER_ERROR (500) if an unexpected error occurs during
-     * the registration process.
+     * @throws ResponseStatusException with HTTP status INTERNAL_SERVER_ERROR (500) if an unexpected error occurs
+     *                                  during the status change process.
      */
-    @DeleteMapping(DELETE_PATH)
-    public ResponseEntity<DeleteUserResponseDTO> deleteUser(
-                        @Valid @RequestBody DeleteUserRequestDTO request) {
+    @PutMapping(ENABLE_DISABLE_PATH)
+    public ResponseEntity<EnableDisableUserResponseDTO> enableDisableUser(
+                        @Valid @RequestBody EnableDisableUserRequestDTO request) {
         try {
-            usersService.deleteUser(request);
+            usersService.disableEnableUser(request);
 
-            DeleteUserResponseDTO response =
-                    new DeleteUserResponseDTO("success",
-                            "user was deleted");
+            EnableDisableUserResponseDTO response =
+                    new EnableDisableUserResponseDTO("success",
+                            "user status was change");
 
             return ResponseEntity.ok(response);
 
         } catch (BadCredentialsException | UsernameNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "Unauthorized: " + e.getMessage());
-        } catch (AccessDeniedException e) {
+        } catch (AccessDeniedException | DisabledException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "Forbidden: " + e.getMessage(), e);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Unexpected error occurred while deleting user: " + e.getMessage());
+                    "Unexpected error occurred while changing user status: " + e.getMessage());
         }
     }
 

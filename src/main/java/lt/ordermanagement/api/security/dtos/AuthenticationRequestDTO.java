@@ -18,12 +18,10 @@ public class AuthenticationRequestDTO {
 
     @NotBlank()
     @Size(min = 5, max = 20)
-    @Schema(description = "The username for authentication")
     private String username;
 
     @NotBlank()
     @Size(min = 8)
-    @Schema(description = "The password for authentication")
     private String password;
 
 }

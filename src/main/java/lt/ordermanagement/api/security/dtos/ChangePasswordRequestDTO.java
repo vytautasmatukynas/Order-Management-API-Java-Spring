@@ -18,17 +18,14 @@ public class ChangePasswordRequestDTO {
 
     @NotBlank
     @Size(min = 5, max = 20)
-    @Schema(description = "User's username")
     private String username;
 
     @NotBlank
     @Size(min = 8)
-    @Schema(description = "User's old password")
     private String oldPassword;
 
     @NotBlank
     @Size(min = 8)
-    @Schema(description = "User's new password")
     private String newPassword;
 
 }

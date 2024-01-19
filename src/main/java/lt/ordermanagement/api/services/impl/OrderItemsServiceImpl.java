@@ -1,5 +1,6 @@
 package lt.ordermanagement.api.services.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lt.ordermanagement.api.models.OrderItem;
 import lt.ordermanagement.api.models.Order;
@@ -7,6 +8,7 @@ import lt.ordermanagement.api.services.Interfaces.OrderItemsService;
 import lt.ordermanagement.api.repositories.OrderItemsRepository;
 import lt.ordermanagement.api.repositories.OrdersRepository;
 import lt.ordermanagement.api.services.Interfaces.OrdersService;
+import lt.ordermanagement.api.utils.GenerateDate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,10 +40,12 @@ public class OrderItemsServiceImpl implements OrderItemsService {
      */
     @Override
     public List<OrderItem> getOrderItems(Long orderId) {
-        Order order = ordersRepository.findById(orderId).orElseThrow();
+        Order order = ordersRepository.findById(orderId).orElseThrow(
+                () -> new EntityNotFoundException("Order for this Order Items not found with ID: " + orderId));
 
         return order.getOrderItems()
                 .stream()
+                .filter(ordItm -> ordItm.getIsDeleted().equals(false))
                 .sorted(Comparator.comparing(OrderItem::getItemName,
                         String.CASE_INSENSITIVE_ORDER))
                 .collect(Collectors.toList());
@@ -50,12 +54,13 @@ public class OrderItemsServiceImpl implements OrderItemsService {
     /**
      * Retrieves an order item by its ID.
      *
-     * @param itemId The ID of the order item to retrieve.
+     * @param orderItemId The ID of the order item to retrieve.
      * @return The retrieved order item.
      */
     @Override
-    public OrderItem getOrderItem(Long itemId) {
-        return orderItemsRepository.findById(itemId).orElseThrow();
+    public OrderItem getOrderItem(Long orderItemId) {
+        return orderItemsRepository.findById(orderItemId).orElseThrow(
+                () -> new EntityNotFoundException("Order Item not found with ID: " + orderItemId));
     }
 
     /**
@@ -66,7 +71,8 @@ public class OrderItemsServiceImpl implements OrderItemsService {
      */
     @Override
     public List<OrderItem> findOrderItemsByName(Long orderId, String itemName) {
-        Order order = ordersRepository.findById(orderId).orElseThrow();
+        Order order = ordersRepository.findById(orderId).orElseThrow(
+                () -> new EntityNotFoundException("Order for this Order Items not found with ID: " + orderId));
 
         return order.getOrderItems()
                 .stream()
@@ -85,14 +91,17 @@ public class OrderItemsServiceImpl implements OrderItemsService {
     @Transactional
     @Override
     public OrderItem addItemToOrder(Long orderId, OrderItem orderItem) {
-        Order order = ordersRepository.findById(orderId).orElseThrow();
+        Order order = ordersRepository.findById(orderId).orElseThrow(
+                () -> new EntityNotFoundException("Order to add this Order Item to not found with ID: " + orderId));
 
         OrderItem newOrderItem = new OrderItem(orderItem.getItemName(),
                                             orderItem.getItemCode(),
                                             orderItem.getItemRevision(),
                                             orderItem.getItemCount(),
                                             orderItem.getItemPrice(),
-                                            orderItem.getTotalPrice());
+                                            orderItem.getTotalPrice(),
+                                            GenerateDate.generateCurrentDate(),
+                                            orderItem.getLinkToImg());
 
         order.addOrderItem(newOrderItem);
 
@@ -120,12 +129,14 @@ public class OrderItemsServiceImpl implements OrderItemsService {
         oldOrderItem.setItemCount(orderItem.getItemCount());
         oldOrderItem.setItemPrice(orderItem.getItemPrice());
         oldOrderItem.setTotalPrice(orderItem.getTotalPrice());
+        oldOrderItem.setItemUpdateDate(GenerateDate.generateCurrentDate());
+        oldOrderItem.setLinkToImg(orderItem.getLinkToImg());
 
         Order currentOrder = oldOrderItem.getOrder();
 
-        // Updates order price in orders table
-        currentOrder.setOrderPrice(ordersService
-                .countTotalOrderPrice(currentOrder.getId()));
+        // Updates order price and update date in orders table
+        currentOrder.setOrderPrice(ordersService.countTotalOrderPrice(currentOrder.getId()));
+        currentOrder.setOrderUpdateDate(GenerateDate.generateCurrentDate());
 
         orderItemsRepository.save(oldOrderItem);
 
@@ -133,21 +144,22 @@ public class OrderItemsServiceImpl implements OrderItemsService {
     }
 
     /**
-     * Deletes an order item by its ID.
+     * Sets isDeleted order item to 'true'.
      *
-     * @param orderItemId The ID of the order item to delete.
+     * @param orderItemId The ID of the order item to set isDeleted.
      */
     @Transactional
     @Override
     public void deleteOrderItem(Long orderItemId) {
-        OrderItem orderItem = orderItemsRepository.findById(orderItemId).orElseThrow();
+        OrderItem orderItem = orderItemsRepository.findById(orderItemId).orElseThrow(
+                () -> new EntityNotFoundException("Order Item not found with ID: " + orderItemId));
 
         Order order = orderItem.getOrder();
 
         // Order price minus item total price
         order.setOrderPrice(order.getOrderPrice() - orderItem.getTotalPrice());
 
-        orderItemsRepository.delete(orderItem);
+        orderItem.setIsDeleted(true);
 
         ordersRepository.save(order);
     }

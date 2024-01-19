@@ -67,6 +67,26 @@ public class OrderItem {
             nullable = false)
     private Double totalPrice = 0D;
 
+    /**
+     * The default value for this field is set to empty string to handle cases where the
+     * value is not explicitly set, ensuring that the field is never null.
+     */
+    @Column(name = "link_to_img",
+            nullable = false)
+    private String linkToImg = "";
+
+    @Column(name = "item_update_date",
+            nullable = false)
+    private String itemUpdateDate;
+
+    /**
+     * Represents the deletion status of an order item.
+     * By default, the 'isDeleted' property is initialized to 'false' unless explicitly set.
+     */
+    @Column(name = "is_deleted",
+            nullable = false)
+    private Boolean isDeleted = false;
+
     @ManyToOne(cascade = {CascadeType.MERGE},
             fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
@@ -78,13 +98,17 @@ public class OrderItem {
                      String itemRevision,
                      Long itemCount,
                      Double itemPrice,
-                     Double totalPrice) {
+                     Double totalPrice,
+                     String itemUpdateDate,
+                     String linkToImg) {
         this.itemName = itemName;
         this.itemCode = itemCode;
         this.itemRevision = itemRevision;
         this.itemCount = itemCount;
         this.itemPrice = itemPrice;
         this.totalPrice = totalPrice;
+        this.itemUpdateDate = itemUpdateDate;
+        this.linkToImg = linkToImg;
     }
 
     /**

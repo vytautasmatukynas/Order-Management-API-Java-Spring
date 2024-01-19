@@ -14,19 +14,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(description = "Request DTO for deleting a user")
-public class DeleteUserRequestDTO {
+public class EnableDisableUserRequestDTO {
 
-    @Schema(description = "The username of the authenticated user")
     @NotBlank()
     @Size(min = 5, max = 20)
     private String username;
 
-    @Schema(description = "The password of the authenticated user")
     @NotBlank()
     @Size(min = 8)
     private String password;
 
-    @Schema(description = "The username of the user to be deleted")
     @NotBlank()
     @Size(min = 5, max = 20)
     private String usernameToDelete;

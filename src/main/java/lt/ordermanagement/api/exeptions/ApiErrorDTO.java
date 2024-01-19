@@ -1,5 +1,6 @@
 package lt.ordermanagement.api.exeptions;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -10,5 +11,6 @@ import org.springframework.http.HttpStatus;
  * It is typically used to provide meaningful error responses in the API.
  * </p>
  */
+@Schema(description = "Response DTO for exceptions")
 public record ApiErrorDTO(HttpStatus status, String message) {
 }

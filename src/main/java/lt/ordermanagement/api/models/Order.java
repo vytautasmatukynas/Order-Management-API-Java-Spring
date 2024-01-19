@@ -89,9 +89,19 @@ public class Order {
             nullable = false)
     private String orderUpdateDate;
 
+    /**
+     * Represents the deletion status of an order.
+     * By default, the 'isDeleted' property is initialized to 'false' unless explicitly set.
+     */
+    @Column(name = "is_deleted",
+            nullable = false)
+    private Boolean isDeleted = false;
+
     @OneToMany(mappedBy = "order",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST,
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH},
             fetch = FetchType.LAZY)
     @JsonIgnore
     List<OrderItem> orderItems;

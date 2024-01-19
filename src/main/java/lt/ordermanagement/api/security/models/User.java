@@ -64,16 +64,22 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(name = "is_enabled",
+            nullable = false)
+    private boolean isEnabled;
+
     public User(String firstName,
                 String lastName,
                 String username,
                 String password,
-                Role role) {
+                Role role,
+                boolean isEnabled) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.role = role;
+        this.isEnabled = isEnabled;
     }
 
     /**
@@ -144,7 +150,7 @@ public class User implements UserDetails {
      */
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 
 }
