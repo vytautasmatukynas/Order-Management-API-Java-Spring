@@ -40,8 +40,23 @@ class OrderItemsServiceImplTest {
         Order order = new Order();
         order.setId(orderId);
 
-        OrderItem orderItem1 = new OrderItem("Item1", "Code1", "Rev1", 1L, 10.0, 10.0, "2024-12-12", "");
-        OrderItem orderItem2 = new OrderItem("Item2", "Code2", "Rev2", 2L, 20.0, 40.0, "2024-12-12", "");
+        OrderItem orderItem1 = new OrderItem("Item1",
+                                            "Code1",
+                                            "Rev1",
+                                            1L,
+                                            10.0,
+                                            10.0,
+                                            "2024-12-12",
+                                            "");
+        OrderItem orderItem2 = new OrderItem("Item2",
+                                            "Code2",
+                                            "Rev2",
+                                            2L,
+                                            20.0,
+                                            40.0,
+                                            "2024-12-12",
+                                            "");
+
         order.setOrderItems(Arrays.asList(orderItem2, orderItem1));
 
         when(ordersRepository.findById(orderId)).thenReturn(Optional.of(order));
@@ -63,7 +78,15 @@ class OrderItemsServiceImplTest {
     public void testGetOrderItem() {
         // Set up mock data
         Long itemId = 1L;
-        OrderItem orderItem = new OrderItem("Item1", "Code1", "Rev1", 1L, 10.0, 10.0, "2024-12-12", "");
+
+        OrderItem orderItem = new OrderItem("Item1",
+                                            "Code1",
+                                            "Rev1",
+                                            1L,
+                                            10.0,
+                                            10.0,
+                                            "2024-12-12",
+                                            "");
 
         when(orderItemsRepository.findById(itemId)).thenReturn(Optional.of(orderItem));
 
@@ -86,8 +109,23 @@ class OrderItemsServiceImplTest {
         Order order = new Order();
         order.setId(orderId);
 
-        OrderItem orderItem1 = new OrderItem("Item1", "Code1", "Rev1", 1L, 10.0, 10.0, "2024-12-12", "");
-        OrderItem orderItem2 = new OrderItem("Item2", "Code2", "Rev2", 2L, 20.0, 40.0, "2024-12-12", "");
+        OrderItem orderItem1 = new OrderItem("Item1",
+                                            "Code1",
+                                            "Rev1",
+                                            1L,
+                                            10.0,
+                                            10.0,
+                                            "2024-12-12",
+                                            "");
+        OrderItem orderItem2 = new OrderItem("Item2",
+                                            "Code2",
+                                            "Rev2",
+                                            2L,
+                                            20.0,
+                                            40.0,
+                                            "2024-12-12",
+                                            "");
+
         order.setOrderItems(Arrays.asList(orderItem2, orderItem1));
 
         when(ordersRepository.findById(orderId)).thenReturn(Optional.of(order));

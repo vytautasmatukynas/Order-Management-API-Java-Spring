@@ -35,7 +35,9 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("Order Management REST API")
                         .version("1.0")
-                        .description("Back-end REST API for Order Management App"));
+                        .description("Back-end REST API for Order Management App. " +
+                                "Test CRUD operations with users: \"manager123\" \"pass123456\" / " +
+                                "\"user123\" \"pass123456\"."));
     }
 
     /**

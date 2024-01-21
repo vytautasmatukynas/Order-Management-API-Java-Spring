@@ -1,0 +1,21 @@
+# Exclude common files and directories
+.git
+.vscode
+.idea
+*.log
+*.iml
+
+# Exclude Maven build artifacts
+target/
+!target/*.jar
+
+# Exclude testing files or folders
+test/
+
+# Exclude development-specific files
+*.class
+*.jar.original
+
+# Exclude Docker-specific files
+Dockerfile*
+docker-compose.yml
