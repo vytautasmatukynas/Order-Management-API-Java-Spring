@@ -26,6 +26,6 @@ public class EnableDisableUserRequestDTO {
 
     @NotBlank()
     @Size(min = 5, max = 20)
-    private String usernameToDelete;
+    private String usernameToEnableDisable;
 
 }

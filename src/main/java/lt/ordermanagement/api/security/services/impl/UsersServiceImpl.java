@@ -140,7 +140,7 @@ public class UsersServiceImpl implements UsersService {
         if (getStoredUsername().equalsIgnoreCase(request.getUsername()) &&
                 passwordEncoder.matches(request.getPassword(), getStoredEncodedPassword())) {
 
-            User user = userRepository.findByUsername(request.getUsernameToDelete())
+            User user = userRepository.findByUsername(request.getUsernameToEnableDisable())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found."));
 
             if (!user.isEnabled())
