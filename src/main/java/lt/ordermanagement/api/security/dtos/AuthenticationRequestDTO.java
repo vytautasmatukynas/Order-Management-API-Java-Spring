@@ -16,11 +16,15 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Request DTO for generating JWT token")
 public class AuthenticationRequestDTO {
 
-    @NotBlank()
+    @Schema(description = "The username for authentication (must be between 5 and 20 characters)",
+            example = "john_doe")
+    @NotBlank
     @Size(min = 5, max = 20)
     private String username;
 
-    @NotBlank()
+    @Schema(description = "The password for authentication (must be at least 8 characters)",
+            example = "strongPassword")
+    @NotBlank
     @Size(min = 8)
     private String password;
 

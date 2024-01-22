@@ -13,6 +13,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -22,6 +24,7 @@ import java.util.List;
  * Controller class handling user related endpoints.
  */
 @RestController
+@Validated
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class UsersController {
@@ -45,6 +48,9 @@ public class UsersController {
      * @throws ResponseStatusException with HTTP status INTERNAL_SERVER_ERROR (500) if an unexpected error occurs
      * during the user retrieval process.
      */
+    @Operation(summary = "Get all users",
+            description = "Retrieves a list of all users. " +
+                    "This operation requires ADMIN role.")
     @GetMapping(GET_USERS_PATH)
     public ResponseEntity<List<User>> getUsers() {
         try {
@@ -70,6 +76,9 @@ public class UsersController {
      * @throws ResponseStatusException with HTTP status INTERNAL_SERVER_ERROR (500) if an unexpected error occurs
      * during the registration process.
      */
+    @Operation(summary = "Register a new user",
+            description = "Registers a new user with the provided credentials. " +
+                    "This operation requires ADMIN role.")
     @PostMapping(REGISTER_PATH)
     public ResponseEntity<User> register(@Valid @RequestBody User user) {
         try {
@@ -100,8 +109,8 @@ public class UsersController {
      * the registration process.
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.POST)
-    @Operation(summary = "Doesn't require JWT token, just User credentials",
-            description = "Validates user credentials and returns an authentication token",
+    @Operation(summary = "Validates user credentials and returns an authentication token",
+            description = "Doesn't require JWT token, just User credentials",
             security = @SecurityRequirement(name = ""))
     @PostMapping(AUTH_PATH)
     public ResponseEntity<AuthenticationResponseDTO> authenticate(
@@ -137,6 +146,8 @@ public class UsersController {
      * during the registration process.
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.PUT)
+    @Operation(summary = "Change user password",
+            description = "Updates the password for the authenticated user.")
     @PutMapping(CHANGE_PASSWORD_PATH)
     public ResponseEntity<ChangePasswordResponseDTO> changePassword(
                         @Valid @RequestBody ChangePasswordRequestDTO request) {
@@ -173,6 +184,8 @@ public class UsersController {
      * @throws ResponseStatusException with HTTP status INTERNAL_SERVER_ERROR (500) if an unexpected error occurs
      *                                  during the status change process.
      */
+    @Operation(summary = "Enable or disable user",
+            description = "This operation requires ADMIN role.")
     @PutMapping(ENABLE_DISABLE_PATH)
     public ResponseEntity<EnableDisableUserResponseDTO> enableDisableUser(
                         @Valid @RequestBody EnableDisableUserRequestDTO request) {

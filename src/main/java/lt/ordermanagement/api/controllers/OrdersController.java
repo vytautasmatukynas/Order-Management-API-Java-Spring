@@ -1,5 +1,6 @@
 package lt.ordermanagement.api.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -25,6 +27,7 @@ import java.util.List;
  * </p>
  */
 @RestController
+@Validated
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class OrdersController {
@@ -47,6 +50,8 @@ public class OrdersController {
      *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.GET)
+    @Operation(summary = "Get All Orders",
+            description = "Retrieves all orders.")
     @GetMapping(ORDERS_PATH)
     public ResponseEntity<List<Order>> getOrders() {
         try {
@@ -70,6 +75,8 @@ public class OrdersController {
      *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.GET)
+    @Operation(summary = "Get Order by ID",
+            description = "Retrieves an order by its ID.")
     @GetMapping(ORDER_PATH)
     public ResponseEntity<Order> getOrderById(@PathVariable Long orderId) {
         try {
@@ -98,6 +105,8 @@ public class OrdersController {
      *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.GET)
+    @Operation(summary = "Find Orders by Parameter",
+            description = "Retrieves a list of orders based on a search parameter.")
     @GetMapping(SEARCH_ORDER_PATH)
     public ResponseEntity<List<Order>> findOrderByParam(@PathVariable String orderParam) {
         try {
@@ -123,6 +132,9 @@ public class OrdersController {
      *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.POST)
+    @Operation(summary = "Add Order",
+            description = "Adds a new order. " +
+                    "USER role can't use this.")
     @PostMapping(ADD_ORDER_PATH)
     public ResponseEntity<Order> addOrder(@Valid @RequestBody Order order) {
         try {
@@ -149,6 +161,9 @@ public class OrdersController {
      *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.PUT)
+    @Operation(summary = "Update Order",
+            description = "Updates an existing order.. " +
+                    "USER role can't use this.")
     @PutMapping(UPDATE_ORDER_PATH)
     public ResponseEntity<Order> updateOrder(@PathVariable Long orderId,
                                              @Valid @RequestBody Order order) {
@@ -176,6 +191,9 @@ public class OrdersController {
      *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.DELETE)
+    @Operation(summary = "Delete Order",
+            description = "Deletes an order by its ID. " +
+                    "USER role can't use this.")
     @PutMapping(DELETE_ORDER_PATH)
     public ResponseEntity<ResponseDeleteDTO> deleteOrder(@PathVariable Long orderId) {
         try {

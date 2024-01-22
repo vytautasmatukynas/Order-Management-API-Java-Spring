@@ -16,15 +16,21 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Request DTO for deleting a user")
 public class EnableDisableUserRequestDTO {
 
-    @NotBlank()
+    @Schema(description = "The username (must be between 5 and 20 characters)",
+            example = "john_doe")
+    @NotBlank
     @Size(min = 5, max = 20)
     private String username;
 
-    @NotBlank()
+    @Schema(description = "The password (must be at least 8 characters)",
+            example = "securePassword123")
+    @NotBlank
     @Size(min = 8)
     private String password;
 
-    @NotBlank()
+    @Schema(description = "The username to enable/disable (must be between 5 and 20 characters)",
+            example = "admin_user")
+    @NotBlank
     @Size(min = 5, max = 20)
     private String usernameToEnableDisable;
 

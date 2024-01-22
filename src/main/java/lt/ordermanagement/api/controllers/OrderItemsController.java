@@ -1,5 +1,6 @@
 package lt.ordermanagement.api.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -25,6 +27,7 @@ import java.util.List;
  * </p>
  */
 @RestController
+@Validated
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class OrderItemsController {
@@ -49,6 +52,8 @@ public class OrderItemsController {
      *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.GET)
+    @Operation(summary = "Get Order Items",
+            description = "Retrieves the list of order items for a given order ID.")
     @GetMapping(ITEMS_PATH)
     public ResponseEntity<List<OrderItem>> getOrderItems(@PathVariable Long orderId) {
         try {
@@ -75,6 +80,8 @@ public class OrderItemsController {
      *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.GET)
+    @Operation(summary = "Get Order Item by ID",
+            description = "Retrieves an order item by its ID.")
     @GetMapping(ITEM_PATH)
     public ResponseEntity<OrderItem> getOrderItemById(@PathVariable Long itemId) {
         try {
@@ -101,6 +108,8 @@ public class OrderItemsController {
      *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.GET)
+    @Operation(summary = "Find Order Items by Name",
+            description = "Searches and retrieves order items by name for a given order ID.")
     @GetMapping(SEARCH_ORDER_ITEM_PATH)
     public ResponseEntity<List<OrderItem>> findOrderItemsByName(@PathVariable Long orderId,
                                                                 @PathVariable String itemName) {
@@ -129,6 +138,9 @@ public class OrderItemsController {
      *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.POST)
+    @Operation(summary = "Add Order Item to Order",
+            description = "Adds a new order item to the specified order and updates the order price. " +
+                    "USER role can't use this.")
     @PostMapping(ADD_ITEM_PATH)
     public ResponseEntity<OrderItem> addItemToOrder(@PathVariable Long orderId,
                                                     @Valid @RequestBody OrderItem orderItem) {
@@ -157,6 +169,9 @@ public class OrderItemsController {
      *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.PUT)
+    @Operation(summary = "Update Order Item",
+            description = "Updates an existing order item and updates the order price. " +
+                    "USER role can't use this.")
     @PutMapping(UPDATE_ITEM_PATH)
     public ResponseEntity<OrderItem> updateOrderItem(@PathVariable Long itemId,
                                                      @Valid @RequestBody OrderItem orderItem) {
@@ -184,6 +199,9 @@ public class OrderItemsController {
      *         Possible Exceptions: AccessDeniedException, EntityNotFoundException, DisabledException
      */
     @CrossOrigin(origins = CORS_URL, methods = RequestMethod.DELETE)
+    @Operation(summary = "Delete Order Item",
+            description = "Deletes an order item by its ID and returns a delete response. " +
+                    "USER role can't use this.")
     @PutMapping(DELETE_ITEM_PATH)
     public ResponseEntity<ResponseDeleteDTO> deleteOrderItem(@PathVariable Long itemId) {
         try {

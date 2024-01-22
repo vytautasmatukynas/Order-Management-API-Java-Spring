@@ -28,73 +28,65 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Schema(description = "Order number", example = "1234567890123")
     @Size(max = 13)
-    @Column(name = "order_number",
-            unique = true,
-            length = 13,
-            nullable = false)
+    @Column(name = "order_number", unique = true, length = 13, nullable = false)
     private String orderNumber;
 
+    @Schema(description = "Order name", example = "Sample Order")
     @NotBlank()
     @Size(min = 1, max = 50)
-    @Column(name = "order_name",
-            length = 50,
-            nullable = false)
+    @Column(name = "order_name", length = 50, nullable = false)
     private String orderName;
 
+    @Schema(description = "Client name", example = "John Doe")
     @NotBlank()
     @Size(min = 1, max = 50)
-    @Column(name = "client_name",
-            length = 50,
-            nullable = false)
+    @Column(name = "client_name", length = 50, nullable = false)
     private String clientName;
 
+    @Schema(description = "Client phone number", example = "+1234567890")
     @Size(max = 20)
-    @Column(name = "client_phone_number",
-            length = 20,
-            nullable = false)
+    @Column(name = "client_phone_number", length = 20, nullable = false)
     private String clientPhoneNumber;
 
+    @Schema(description = "Client email", example = "john.doe@example.com")
     @Email()
     @Size(max = 50)
-    @Column(name = "client_email",
-            length = 50,
-            nullable = false
-    )
+    @Column(name = "client_email", length = 50, nullable = false)
     private String clientEmail;
 
-    @Column(name = "order_term",
-            nullable = false)
+    @Schema(description = "Order term", example = "2024-12-31")
+    @Column(name = "order_term", nullable = false)
     private String orderTerm;
 
-    @Column(name = "order_status",
-            nullable = false)
+    @Schema(description = "Order status", example = "Pending")
+    @Column(name = "order_status", nullable = false)
     private String orderStatus;
 
     /**
      * The default value for this field is set to 0.0 to handle cases where the
      * value is not explicitly set, ensuring that the field is never null.
      */
-    @Column(name = "order_price",
-            nullable = false)
+    @Schema(description = "Order price", example = "100.0")
+    @Column(name = "order_price", nullable = false)
     private Double orderPrice = 0D;
 
+    @Schema(description = "Comments", example = "Additional comments about the order")
     @Size(max = 200)
-    @Column(name = "comments",
-            length = 200,
-            nullable = false)
+    @Column(name = "comments", length = 200, nullable = false)
     private String comments;
 
-    @Column(name = "order_update_date",
-            nullable = false)
+    @Schema(description = "Order update date", example = "2024-01-22")
+    @Column(name = "order_update_date", nullable = false)
     private String orderUpdateDate;
 
     /**
      * Represents the deletion status of an order.
      * By default, the 'isDeleted' property is initialized to 'false' unless explicitly set.
      */
-    @Column(name = "is_deleted",
-            nullable = false)
+    @Schema(description = "Deletion status of an order", example = "false")
+    @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = false;
 
     @OneToMany(mappedBy = "order",

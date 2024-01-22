@@ -2,7 +2,7 @@
 
 This is `Java` `Spring Boot` back-end REST API for `Order Management Application`.
 
-Link to `Android` front-end code: [Front-end](https://github.com/vytautasmatukynas/Order-Management-App-Java-Android)
+Link to test REST API: [TEST LINK](https://test-order-api-v1.onrender.com/swagger-ui/index.html)
 
 <br>
 

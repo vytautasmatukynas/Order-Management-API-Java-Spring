@@ -10,5 +10,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * </p>
  */
 @Schema(description = "Response DTO for delete operation")
-public record ResponseDeleteDTO(String status, String message) {
+public record ResponseDeleteDTO(
+        @Schema(description = "Status of the delete operation")
+        String status,
+        @Schema(description = "Additional message related to the delete operation")
+        String message) {
 }
+

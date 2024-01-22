@@ -31,41 +31,37 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank()
+    @Schema(description = "The first name of the user", example = "John")
+    @NotBlank
     @Size(min = 1, max = 50)
-    @Column(name = "first_name",
-            length = 50,
-            nullable = false)
+    @Column(name = "first_name", length = 50, nullable = false)
     private String firstName;
 
-    @NotBlank()
+    @Schema(description = "The last name of the user", example = "Doe")
+    @NotBlank
     @Size(min = 1, max = 50)
-    @Column(name = "last_name",
-            length = 50,
-            nullable = false)
+    @Column(name = "last_name", length = 50, nullable = false)
     private String lastName;
 
-    @NotBlank()
+    @Schema(description = "The username of the user", example = "john_doe")
+    @NotBlank
     @Size(min = 5, max = 20)
-    @Column(name = "username",
-            length = 20,
-            nullable = false,
-            unique = true)
+    @Column(name = "username", length = 20, nullable = false, unique = true)
     private String username;
 
-    @NotBlank()
+    @Schema(description = "The password of the user", example = "securePassword123")
+    @NotBlank
     @Size(min = 8)
-    @Column(name = "password",
-            nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "role",
-            nullable = false)
+    @Schema(description = "The role of the user", example = "ROLE_USER")
+    @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(name = "is_enabled",
-            nullable = false)
+    @Schema(description = "Flag indicating whether the user account is enabled", example = "true")
+    @Column(name = "is_enabled", nullable = false)
     private boolean isEnabled;
 
     public User(String firstName,

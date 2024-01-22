@@ -15,34 +15,49 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit tests for the {@link OrdersServiceImpl} class.
+ */
 class OrdersServiceImplTest {
 
+    /**
+     * Mock repository for orders.
+     */
     @Mock
     private OrdersRepository ordersRepository;
 
+    /**
+     * Service to be tested.
+     */
     @InjectMocks
     private OrdersServiceImpl ordersService;
 
+    /**
+     * Set up method to initialize mocks.
+     */
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
+    /**
+     * Test for the {@link OrdersServiceImpl#getOrders()} method.
+     */
     @Test
     public void testGetOrders() {
         List<Order> mockOrders = Arrays.asList(new Order(), new Order());
 
         when(ordersRepository.findAllSorted()).thenReturn(mockOrders);
 
-        // Repeat the test 10000 times
-        for (int i = 0; i < 10000; i++) {
-            List<Order> result = ordersService.getOrders();
+        List<Order> result = ordersService.getOrders();
 
-            assertNotNull(result);
-            assertEquals(2, result.size());
-        }
+        assertNotNull(result);
+        assertEquals(2, result.size());
     }
 
+    /**
+     * Test for the {@link OrdersServiceImpl#getOrderById(Long)} method.
+     */
     @Test
     public void testGetOrderById() {
         Long orderId = 1L;
@@ -51,30 +66,27 @@ class OrdersServiceImplTest {
 
         when(ordersRepository.findById(orderId)).thenReturn(Optional.of(mockOrder));
 
-        // Repeat the test 10000 times
-        for (int i = 0; i < 10000; i++) {
-            Order result = ordersService.getOrderById(orderId);
+        Order result = ordersService.getOrderById(orderId);
 
-            assertNotNull(result);
-            assertEquals(orderId, result.getId());
-        }
+        assertNotNull(result);
+        assertEquals(orderId, result.getId());
     }
 
+    /**
+     * Test for the {@link OrdersServiceImpl#findOrdersByParameters(String)} method.
+     */
     @Test
     public void testFindOrdersByParameters() {
         String searchParam = "search";
         List<Order> mockOrders = Arrays.asList(new Order(), new Order());
 
-        when(ordersRepository.findSortedOrdersByParameters(searchParam, searchParam, searchParam, searchParam, searchParam))
+        when(ordersRepository.findSortedOrdersByParameters(
+                searchParam, searchParam, searchParam, searchParam, searchParam))
                 .thenReturn(mockOrders);
 
-        // Repeat the test 10000 times
-        for (int i = 0; i < 10000; i++) {
-            List<Order> result = ordersService.findOrdersByParameters(searchParam);
+        List<Order> result = ordersService.findOrdersByParameters(searchParam);
 
-            assertNotNull(result);
-            assertEquals(2, result.size());
-        }
+        assertNotNull(result);
+        assertEquals(2, result.size());
     }
-
 }
