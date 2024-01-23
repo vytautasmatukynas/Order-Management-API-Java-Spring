@@ -27,6 +27,7 @@ import java.util.List;
 @Schema(description = "User entity representing detailed information about a user")
 public class User implements UserDetails {
 
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -55,12 +56,14 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Schema(description = "The role of the user", example = "ROLE_USER")
+    @Schema(description = "The role of the user", example = "ROLE_USER",
+            accessMode = Schema.AccessMode.READ_ONLY)
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Schema(description = "Flag indicating whether the user account is enabled", example = "true")
+    @Schema(description = "Flag indicating whether the user account is enabled", example = "true",
+            accessMode = Schema.AccessMode.READ_ONLY)
     @Column(name = "is_enabled", nullable = false)
     private boolean isEnabled;
 

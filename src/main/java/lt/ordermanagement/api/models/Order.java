@@ -24,11 +24,13 @@ import java.util.List;
 @Schema(description = "Order entity representing information about an order")
 public class Order {
 
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Schema(description = "Order number", example = "1234567890123")
+    @Schema(description = "Order number", example = "1234567890123",
+            accessMode = Schema.AccessMode.READ_ONLY)
     @Size(max = 13)
     @Column(name = "order_number", unique = true, length = 13, nullable = false)
     private String orderNumber;
@@ -77,7 +79,8 @@ public class Order {
     @Column(name = "comments", length = 200, nullable = false)
     private String comments;
 
-    @Schema(description = "Order update date", example = "2024-01-22")
+    @Schema(description = "Order update date", example = "2024-01-22",
+            accessMode = Schema.AccessMode.READ_ONLY)
     @Column(name = "order_update_date", nullable = false)
     private String orderUpdateDate;
 
@@ -85,7 +88,8 @@ public class Order {
      * Represents the deletion status of an order.
      * By default, the 'isDeleted' property is initialized to 'false' unless explicitly set.
      */
-    @Schema(description = "Deletion status of an order", example = "false")
+    @Schema(description = "Deletion status of an order", example = "false",
+            accessMode = Schema.AccessMode.READ_ONLY)
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = false;
 

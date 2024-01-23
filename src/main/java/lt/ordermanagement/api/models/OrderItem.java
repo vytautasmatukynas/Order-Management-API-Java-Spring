@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "OrderItem entity representing detailed information about an order associated order item")
 public class OrderItem {
 
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -82,7 +83,8 @@ public class OrderItem {
             nullable = false)
     private String linkToImg = "";
 
-    @Schema(description = "Item update date", example = "2024-01-22")
+    @Schema(description = "Item update date", example = "2024-01-22",
+            accessMode = Schema.AccessMode.READ_ONLY)
     @Column(name = "item_update_date",
             nullable = false)
     private String itemUpdateDate;
@@ -91,7 +93,8 @@ public class OrderItem {
      * Represents the deletion status of an order item.
      * By default, the 'isDeleted' property is initialized to 'false' unless explicitly set.
      */
-    @Schema(description = "Deletion status of an order item", example = "false")
+    @Schema(description = "Deletion status of an order item", example = "false",
+            accessMode = Schema.AccessMode.READ_ONLY)
     @Column(name = "is_deleted",
             nullable = false)
     private Boolean isDeleted = false;
