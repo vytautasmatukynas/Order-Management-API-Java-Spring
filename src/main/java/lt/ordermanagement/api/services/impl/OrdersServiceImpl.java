@@ -73,11 +73,13 @@ public class OrdersServiceImpl implements OrdersService {
      */
     @Transactional
     @Override
-    public void addOrder(Order order) {
+    public Order addOrder(Order order) {
         order.setOrderNumber(generateOrderNumber());
         order.setOrderUpdateDate(GenerateDate.generateCurrentDate());
 
         ordersRepository.save(order);
+
+        return order;
     }
 
     /**

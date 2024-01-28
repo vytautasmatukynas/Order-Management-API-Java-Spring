@@ -20,7 +20,7 @@ public interface OrdersService {
 
     List<Order> findOrdersByParameters(String searchParam);
 
-    void addOrder(Order order);
+    Order addOrder(Order order);
 
     Order updateOrder(Long orderId, Order order);
 
