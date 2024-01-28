@@ -31,7 +31,8 @@ public class OpenApiConfig {
                 .components(new Components()
                         .addSecuritySchemes("bearer-key", createSecurityScheme()))
                 // Add a security requirement to include the "bearer-key" in API requests.
-                .addSecurityItem(new SecurityRequirement().addList("bearer-key"))
+                .addSecurityItem(new SecurityRequirement()
+                        .addList("bearer-key"))
                 .info(new Info()
                         .title("Order Management REST API")
                         .version("1.0")
