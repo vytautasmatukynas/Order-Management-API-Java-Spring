@@ -33,26 +33,26 @@ public class User implements UserDetails {
     private long id;
 
     @Schema(description = "The first name of the user", example = "John")
-    @NotBlank
-    @Size(min = 1, max = 50)
+    @NotBlank(message = "First name cannot be blank")
+    @Size(min = 1, max = 50, message = "First name must be between 1 and 50 characters")
     @Column(name = "first_name", length = 50, nullable = false)
     private String firstName;
 
     @Schema(description = "The last name of the user", example = "Doe")
-    @NotBlank
-    @Size(min = 1, max = 50)
+    @NotBlank(message = "Last name cannot be blank")
+    @Size(min = 1, max = 50, message = "Last name must be between 1 and 50 characters")
     @Column(name = "last_name", length = 50, nullable = false)
     private String lastName;
 
     @Schema(description = "The username of the user", example = "john_doe")
-    @NotBlank
-    @Size(min = 5, max = 20)
+    @NotBlank(message = "Username cannot be blank")
+    @Size(min = 5, max = 20, message = "Username must be between 5 and 20 characters")
     @Column(name = "username", length = 20, nullable = false, unique = true)
     private String username;
 
     @Schema(description = "The password of the user", example = "securePassword123")
-    @NotBlank
-    @Size(min = 8)
+    @NotBlank(message = "Password cannot be blank")
+    @Size(min = 8, message = "Password must be at least 8 characters long")
     @Column(name = "password", nullable = false)
     private String password;
 

@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,32 +30,27 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Schema(description = "Order number", example = "1234567890123",
-            accessMode = Schema.AccessMode.READ_ONLY)
-    @Size(max = 13)
+    @NotBlank(message = "Order number is required")
+    @Size(max = 13, message = "Order number must be at most 13 characters")
     @Column(name = "order_number", unique = true, length = 13, nullable = false)
     private String orderNumber;
 
-    @Schema(description = "Order name", example = "Sample Order")
-    @NotBlank()
-    @Size(min = 1, max = 50)
+    @NotBlank(message = "Order name is required")
+    @Size(min = 1, max = 50, message = "Order name must be between 1 and 50 characters")
     @Column(name = "order_name", length = 50, nullable = false)
     private String orderName;
 
-    @Schema(description = "Client name", example = "John Doe")
-    @NotBlank()
-    @Size(min = 1, max = 50)
+    @NotBlank(message = "Client name is required")
+    @Size(min = 1, max = 50, message = "Client name must be between 1 and 50 characters")
     @Column(name = "client_name", length = 50, nullable = false)
     private String clientName;
 
-    @Schema(description = "Client phone number", example = "+1234567890")
-    @Size(max = 20)
+    @Size(max = 20, message = "Client phone number must be at most 20 characters")
     @Column(name = "client_phone_number", length = 20, nullable = false)
     private String clientPhoneNumber;
 
-    @Schema(description = "Client email", example = "john.doe@example.com")
-    @Email()
-    @Size(max = 50)
+    @Email(message = "Invalid client email format")
+    @Size(max = 50, message = "Client email must be at most 50 characters")
     @Column(name = "client_email", length = 50, nullable = false)
     private String clientEmail;
 
@@ -75,7 +71,7 @@ public class Order {
     private Double orderPrice = 0D;
 
     @Schema(description = "Comments", example = "Additional comments about the order")
-    @Size(max = 200)
+    @Size(max = 200, message = "Comments must be at most 200 characters")
     @Column(name = "comments", length = 200, nullable = false)
     private String comments;
 

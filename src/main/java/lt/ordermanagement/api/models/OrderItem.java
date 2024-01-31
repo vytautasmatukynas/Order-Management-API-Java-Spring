@@ -26,22 +26,22 @@ public class OrderItem {
     private Long id;
 
     @Schema(description = "Item name", example = "Product A")
-    @NotBlank()
-    @Size(min = 1, max = 50)
+    @NotBlank(message = "Item name is required")
+    @Size(min = 1, max = 50, message = "Item name length must be between 1 and 50 characters")
     @Column(name = "item_name",
             length = 50,
             nullable = false)
     private String itemName;
 
     @Schema(description = "Item code", example = "A123")
-    @Size(max = 50)
+    @Size(max = 50, message = "Item code length must be less than or equal to 50 characters")
     @Column(name = "item_code",
             length = 50,
             nullable = false)
     private String itemCode;
 
     @Schema(description = "Item revision", example = "Rev1")
-    @Size(max = 50)
+    @Size(max = 50, message = "Item revision length must be less than or equal to 50 characters")
     @Column(name = "item_revision",
             length = 50,
             nullable = false)

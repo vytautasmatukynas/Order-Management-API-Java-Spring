@@ -11,6 +11,6 @@ import org.springframework.http.HttpStatus;
  * It is typically used to provide meaningful error responses in the API.
  * </p>
  */
-@Schema(description = "Response DTO for exceptions")
+@Schema(description = "Response DTO for HTTP status exceptions")
 public record ApiErrorDTO(HttpStatus status, String message) {
 }
