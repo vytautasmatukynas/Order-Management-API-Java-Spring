@@ -30,7 +30,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Order number is required")
     @Size(max = 13, message = "Order number must be at most 13 characters")
     @Column(name = "order_number", unique = true, length = 13, nullable = false)
     private String orderNumber;
