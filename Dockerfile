@@ -9,10 +9,10 @@ WORKDIR /api
 ARG JAR_FILE=target/*.jar
 
 # Copy the JAR file into the container at /app
-COPY ./target/oder-management-api-spring-1.0.jar /api/order-management-api-spring-1.0.jar
+COPY ./target/order-management-api-spring-JWT-1.0.jar /api/order-management-api-spring-JWT-1.0.jar
 
 # Expose the port that your Spring Boot app is running on
 EXPOSE 8080
 
 # Specify the command to run your application
-CMD ["java", "-jar", "order-management-api-spring-1.0.jar"]
+CMD ["java", "-jar", "order-management-api-spring-JWT-1.0.jar"]

@@ -29,24 +29,30 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Schema(description = "Order number", example = "ON-01234567890",
+            accessMode = Schema.AccessMode.READ_ONLY)
     @Size(max = 13, message = "Order number must be at most 13 characters")
     @Column(name = "order_number", unique = true, length = 13, nullable = false)
     private String orderNumber;
 
+    @Schema(description = "Order name", example = "example order")
     @NotBlank(message = "Order name is required")
     @Size(min = 1, max = 50, message = "Order name must be between 1 and 50 characters")
     @Column(name = "order_name", length = 50, nullable = false)
     private String orderName;
 
+    @Schema(description = "Client name", example = "John Example")
     @NotBlank(message = "Client name is required")
     @Size(min = 1, max = 50, message = "Client name must be between 1 and 50 characters")
     @Column(name = "client_name", length = 50, nullable = false)
     private String clientName;
 
+    @Schema(description = "Client phone number", example = "+370000000000000")
     @Size(max = 20, message = "Client phone number must be at most 20 characters")
     @Column(name = "client_phone_number", length = 20, nullable = false)
     private String clientPhoneNumber;
 
+    @Schema(description = "Client email", example = "example@example.com")
     @Email(message = "Invalid client email format")
     @Size(max = 50, message = "Client email must be at most 50 characters")
     @Column(name = "client_email", length = 50, nullable = false)
