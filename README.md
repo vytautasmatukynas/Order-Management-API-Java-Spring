@@ -2,7 +2,7 @@
 
 This is `Java` `Spring Boot` back-end REST API for `Order Management Application`.
 
-Link to test REST API: [TEST LINK](https://api-testordermanagement.onrender.com/swagger-ui/index.html)
+Link to test REST API (deployed on free service, so have to wait for 1-5min. to start): [TEST LINK](https://api-testordermanagement.onrender.com/swagger-ui/index.html)
 
 <br>
 
