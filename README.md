@@ -11,6 +11,8 @@ It provides features for creating, updating, and tracking orders for efficient o
 
 API uses `SQL` database and has 3 tables - `orders` `order_items` `users`.
 
+API uses `@CrossOrigin` annotation to communicate with front-end.
+
 `orders` table stores fundamental information about orders - order number, order name, client name, client phone number,
 client email, order term, order status, order price, comments, order update date, is deleted.
 
